@@ -1,0 +1,10 @@
+# Normalizes all text to have LF stored as EOL in repo
+* text=auto
+
+# Visual Studio
+# Treat solution and project files as text, enforce CRLF EOL in working dir
+*.sln    text eol=crlf
+*.csproj text eol=crlf
+
+# Generate diffs tailored to csharp
+*.cs diff=csharp
