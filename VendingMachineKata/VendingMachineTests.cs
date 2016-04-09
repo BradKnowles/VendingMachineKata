@@ -8,13 +8,13 @@ namespace VendingMachineKata
         public class AcceptCoins
         {
             [Fact]
-            public void InsertCoin_InsertNickel_UpdatesTotal_ReturnsTotalForDisplay()
+            public void InsertCoin_InsertNickel_SetsTotal_SetsDisplay()
             {
-                var validCoin = new Coin();
+                var nickel = new Coin();
                 var sut = new VendingMachine();
-                var results = sut.InsertCoin(validCoin);
-
-                Assert.Equal("$0.05", results);
+                sut.InsertCoin(nickel);
+                Assert.Equal("$0.05", sut.Display);
+                Assert.Equal(.05m, sut.Total);
             }
         }
 
@@ -26,9 +26,13 @@ namespace VendingMachineKata
 
     public class VendingMachine
     {
-        public String InsertCoin(Coin coin)
+        public void InsertCoin(Coin coin)
         {
-            return "$0.05";
+            Display = "$0.05";
+            Total = .05m;
         }
+
+        public String Display { get; set; }
+        public Decimal Total { get; set; }
     }
 }
