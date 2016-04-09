@@ -16,6 +16,17 @@ namespace VendingMachineKata
                 Assert.Equal("$0.05", sut.Display);
                 Assert.Equal(.05m, sut.Total);
             }
+
+            [Fact]
+            public void InsertCoin_InsertPenny_DoesNotSetTotal_SendsToCoinReturn()
+            {
+                var penny = new Coin();
+                var sut = new VendingMachine();
+                sut.InsertCoin(penny);
+                Assert.Equal("$0.00", sut.Display);
+                Assert.Equal(.00m, sut.Total);
+                Assert.Equal(penny, sut.CoinReturn);
+            }
         }
 
     }
@@ -34,5 +45,6 @@ namespace VendingMachineKata
 
         public String Display { get; set; }
         public Decimal Total { get; set; }
+        public Coin CoinReturn { get; set; }
     }
 }
