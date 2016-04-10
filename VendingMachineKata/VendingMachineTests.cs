@@ -112,9 +112,9 @@ namespace VendingMachineKata
                 sut.InsertCoin(Coins.Quarter);
                 sut.PushColaButton();
 
-                Assert.Equal(sut.Display, "THANK YOU");
+                Assert.Equal("THANK YOU", sut.Display);
                 Assert.Equal(Products.Cola, sut.ProductTray);
-                Assert.Equal(sut.Display, "INSERT COIN");
+                Assert.Equal("INSERT COIN", sut.Display);
                 Assert.Equal(0m, sut.Total);
             }
 
@@ -128,9 +128,9 @@ namespace VendingMachineKata
                 sut.InsertCoin(Coins.Nickel);
                 sut.PushCandyButton();
 
-                Assert.Equal(sut.Display, "THANK YOU");
+                Assert.Equal("THANK YOU", sut.Display);
                 Assert.Equal(Products.Candy, sut.ProductTray);
-                Assert.Equal(sut.Display, "INSERT COIN");
+                Assert.Equal("INSERT COIN", sut.Display);
                 Assert.Equal(0m, sut.Total);
             }
 
@@ -145,9 +145,9 @@ namespace VendingMachineKata
                 sut.InsertCoin(Coins.Dime);
                 sut.PushChipsButton();
 
-                Assert.Equal(sut.Display, "THANK YOU");
+                Assert.Equal("THANK YOU", sut.Display);
                 Assert.Equal(Products.Chips, sut.ProductTray);
-                Assert.Equal(sut.Display, "INSERT COIN");
+                Assert.Equal("INSERT COIN", sut.Display);
                 Assert.Equal(0m, sut.Total);
             }
         }
