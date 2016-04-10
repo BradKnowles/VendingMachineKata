@@ -11,9 +11,11 @@ namespace VendingMachineKata
         private readonly IReadOnlyDictionary<Coin, Decimal> _coinValueMapping;
 
         // US coin values obtained from https://www.usmint.gov/about_the_mint/?action=coin_specifications
+        // ReSharper disable InconsistentNaming
         private static readonly Coin _nickel = new Coin(5m, 21.21m);
         private static readonly Coin _dime = new Coin(2.268m, 17.91m);
         private static readonly Coin _quarter = new Coin(5.670m, 24.26m);
+        // ReSharper restore InconsistentNaming
 
         public VendingMachine()
         {
@@ -33,16 +35,7 @@ namespace VendingMachineKata
             Total += _coinValueMapping[coin];
         }
 
-        public String Display
-        {
-            get
-            {
-                if (Total == 0m)
-                    return "INSERT COIN";
-
-                return Total.ToString("C2");
-            }
-        }
+        public String Display => Total == 0m ? "INSERT COIN" : Total.ToString("C2");
 
         public Decimal Total { get; set; }
 

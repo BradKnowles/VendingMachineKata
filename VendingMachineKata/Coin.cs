@@ -13,6 +13,7 @@ namespace VendingMachineKata
             DiameterinMillimeters = diameterinMillimeters;
         }
 
+        #region Equal Overrides 
         protected Boolean Equals(Coin other)
         {
             return WeightInGrams == other.WeightInGrams && DiameterinMillimeters == other.DiameterinMillimeters;
@@ -23,14 +24,14 @@ namespace VendingMachineKata
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != GetType()) return false;
-            return Equals((Coin) obj);
+            return Equals((Coin)obj);
         }
 
         public override Int32 GetHashCode()
         {
             unchecked
             {
-                return (WeightInGrams.GetHashCode()*397) ^ DiameterinMillimeters.GetHashCode();
+                return (WeightInGrams.GetHashCode() * 397) ^ DiameterinMillimeters.GetHashCode();
             }
         }
 
@@ -43,5 +44,7 @@ namespace VendingMachineKata
         {
             return !Equals(left, right);
         }
+
+        #endregion
     }
 }
