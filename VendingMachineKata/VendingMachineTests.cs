@@ -186,6 +186,39 @@ namespace VendingMachineKata
                 Assert.Equal("PRICE: $0.50", sut.Display);
                 Assert.Equal("$0.25", sut.Display);
             }
+
+            [Fact]
+            public void ColaButtonPress_WithNoMoneyInserted_DisplaysProductPriceThenInsertCoins_DoesNotDispenseProduct()
+            {
+                var sut = new VendingMachine();
+                sut.PushColaButton();
+
+                Assert.Equal(null, sut.ProductTray);
+                Assert.Equal("PRICE: $1.00", sut.Display);
+                Assert.Equal("INSERT COINS", sut.Display);
+            }
+
+            [Fact]
+            public void CandyButtonPress_WithNoMoneyInserted_DisplaysProductPriceThenInsertCoins_DoesNotDispenseProduct()
+            {
+                var sut = new VendingMachine();
+                sut.PushCandyButton();
+
+                Assert.Equal(null, sut.ProductTray);
+                Assert.Equal("PRICE: $0.65", sut.Display);
+                Assert.Equal("INSERT COINS", sut.Display);
+            }
+
+            [Fact]
+            public void ChipsButtonPress_WithNoMoneyInserted_DisplaysProductPriceThenInsertCoins_DoesNotDispenseProduct()
+            {
+                var sut = new VendingMachine();
+                sut.PushChipsButton();
+
+                Assert.Equal(null, sut.ProductTray);
+                Assert.Equal("PRICE: $0.50", sut.Display);
+                Assert.Equal("INSERT COINS", sut.Display);
+            }
         }
 
         private static class Coins {
