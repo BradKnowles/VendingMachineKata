@@ -115,6 +115,7 @@ namespace VendingMachineKata
                 Assert.Equal(sut.Display, "THANK YOU");
                 Assert.Equal(Products.Cola, sut.ProductTray);
                 Assert.Equal(sut.Display, "INSERT COIN");
+                Assert.Equal(0m, sut.Total);
             }
         }
 
