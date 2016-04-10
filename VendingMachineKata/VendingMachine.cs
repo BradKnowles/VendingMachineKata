@@ -63,6 +63,7 @@ namespace VendingMachineKata
         public String TotalFormatted => Total.ToString("C2");
 
         public Coin CoinReturn { get; set; }
+        public Decimal CoinReturnTotal { get; set; }
 
         public Product ProductTray { get; set; }
 
