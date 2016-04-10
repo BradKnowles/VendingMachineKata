@@ -59,8 +59,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AcceptCoinsTests.cs" />
     <Compile Include="Coin.cs" />
+    <Compile Include="MakeChangeTests.cs" />
     <Compile Include="Product.cs" />
+    <Compile Include="SelectProductsTests.cs" />
     <Compile Include="VendingMachine.cs" />
     <Compile Include="VendingMachineTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -63,6 +63,7 @@ namespace VendingMachineKata
         public String TotalFormatted => Total.ToString("C2");
 
         public Coin CoinReturn { get; set; }
+        public Decimal CoinReturnTotal { get; set; }
 
         public Product ProductTray { get; set; }
 
@@ -86,7 +87,7 @@ namespace VendingMachineKata
 
         private void DispenseProduct(Product product)
         {
-            if (Total != product.Price)
+            if (Total < product.Price)
             {
                 Display = DisplayMessages.Price(product.Price);
                 _resetDisplayOnNextGet = true;
@@ -95,6 +96,7 @@ namespace VendingMachineKata
 
             ProductTray = product;
             Display = DisplayMessages.ThankYou;
+            CoinReturnTotal = Total - product.Price;
             Total = 0m;
             _resetDisplayOnNextGet = true;
         }
