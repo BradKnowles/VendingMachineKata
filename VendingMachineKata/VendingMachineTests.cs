@@ -13,7 +13,7 @@ namespace VendingMachineKata
             public void InitialState_HasZeroTotal_DisplaysInsertCoin()
             {
                 var sut = new VendingMachine();
-                Assert.Equal("INSERT COIN", sut.Display);
+                Assert.Equal("INSERT COINS", sut.Display);
                 Assert.Equal(0m, sut.Total);
             }
 
@@ -98,25 +98,152 @@ namespace VendingMachineKata
                 };
                 return coins;
             }
+        }
 
-            private static class Coins
+        public class SelectProduct
+        {
+            [Fact]
+            public void ColaButtonPress_UsingCorrectChange_DispenseProduct_DisplaysThankYouThenInsertCoins_SetsTotalToZero()
             {
-                // US Coin Information - https://www.usmint.gov/about_the_mint/?action=coin_specifications
-                // Candian Coin Information - http://www.mint.ca/store/mint/about-the-mint/canadian-circulation-1100028
-                public static Coin Penny => new Coin(2.5m, 19.05m);
-                public static Coin Nickel => new Coin(5m, 21.21m);
-                public static Coin Dime => new Coin(2.268m, 17.91m);
-                public static Coin Quarter => new Coin(5.670m, 24.26m);
-                public static Coin HalfDollar => new Coin(11.340m, 30.61m);
-                public static Coin PresidentialDollar => new Coin(8.1m, 26.49m);
-                public static Coin CanadianPenny => new Coin(2.35m, 19.05m);
-                public static Coin CanadianNickel => new Coin(3.95m, 21.2m);
-                public static Coin CanadianDime => new Coin(1.75m, 18.03m);
-                public static Coin CanadianQuarter => new Coin(4.4m, 23.88m);
-                public static Coin CanadianHalfDollar => new Coin(6.9m, 27.13m);
-                public static Coin CanadianDollar => new Coin(6.27m, 26.5m);
-                public static Coin CanadianTwoDollar => new Coin(6.92m, 28m);
+                var sut = new VendingMachine();
+                sut.InsertCoin(Coins.Quarter);
+                sut.InsertCoin(Coins.Quarter);
+                sut.InsertCoin(Coins.Quarter);
+                sut.InsertCoin(Coins.Quarter);
+                sut.PushColaButton();
+
+                Assert.Equal("THANK YOU", sut.Display);
+                Assert.Equal(Products.Cola, sut.ProductTray);
+                Assert.Equal("INSERT COINS", sut.Display);
+                Assert.Equal(0m, sut.Total);
             }
+
+            [Fact]
+            public void CandyButtonPress_UsingCorrectChange_DispenseProduct_DisplaysThankYouThenInsertCoins_SetsTotalToZero()
+            {
+                var sut = new VendingMachine();
+                sut.InsertCoin(Coins.Quarter);
+                sut.InsertCoin(Coins.Quarter);
+                sut.InsertCoin(Coins.Dime);
+                sut.InsertCoin(Coins.Nickel);
+                sut.PushCandyButton();
+
+                Assert.Equal("THANK YOU", sut.Display);
+                Assert.Equal(Products.Candy, sut.ProductTray);
+                Assert.Equal("INSERT COINS", sut.Display);
+                Assert.Equal(0m, sut.Total);
+            }
+
+            [Fact]
+            public void ChipsButtonPress_UsingCorrectChange_DispenseProduct_DisplaysThankYouThenInsertCoins_SetsTotalToZero()
+            {
+                var sut = new VendingMachine();
+                sut.InsertCoin(Coins.Dime);
+                sut.InsertCoin(Coins.Dime);
+                sut.InsertCoin(Coins.Dime);
+                sut.InsertCoin(Coins.Dime);
+                sut.InsertCoin(Coins.Dime);
+                sut.PushChipsButton();
+
+                Assert.Equal("THANK YOU", sut.Display);
+                Assert.Equal(Products.Chips, sut.ProductTray);
+                Assert.Equal("INSERT COINS", sut.Display);
+                Assert.Equal(0m, sut.Total);
+            }
+
+            [Fact]
+            public void ColaButtonPress_UsingIncorrectChange_DisplaysProductPriceThenCurrentTotal_DoesNotDispenseProduct()
+            {
+                var sut = new VendingMachine();
+                sut.InsertCoin(Coins.Quarter);
+                sut.PushColaButton();
+
+                Assert.Equal(null, sut.ProductTray);
+                Assert.Equal("PRICE: $1.00", sut.Display);
+                Assert.Equal("$0.25", sut.Display);
+            }
+
+            [Fact]
+            public void CandyButtonPress_UsingIncorrectChange_DisplaysProductPriceThenCurrentTotal_DoesNotDispenseProduct()
+            {
+                var sut = new VendingMachine();
+                sut.InsertCoin(Coins.Quarter);
+                sut.PushCandyButton();
+
+                Assert.Equal(null, sut.ProductTray);
+                Assert.Equal("PRICE: $0.65", sut.Display);
+                Assert.Equal("$0.25", sut.Display);
+            }
+
+            [Fact]
+            public void ChipsButtonPress_UsingIncorrectChange_DisplaysProductPriceThenCurrentTotal_DoesNotDispenseProduct()
+            {
+                var sut = new VendingMachine();
+                sut.InsertCoin(Coins.Quarter);
+                sut.PushChipsButton();
+
+                Assert.Equal(null, sut.ProductTray);
+                Assert.Equal("PRICE: $0.50", sut.Display);
+                Assert.Equal("$0.25", sut.Display);
+            }
+
+            [Fact]
+            public void ColaButtonPress_WithNoMoneyInserted_DisplaysProductPriceThenInsertCoins_DoesNotDispenseProduct()
+            {
+                var sut = new VendingMachine();
+                sut.PushColaButton();
+
+                Assert.Equal(null, sut.ProductTray);
+                Assert.Equal("PRICE: $1.00", sut.Display);
+                Assert.Equal("INSERT COINS", sut.Display);
+            }
+
+            [Fact]
+            public void CandyButtonPress_WithNoMoneyInserted_DisplaysProductPriceThenInsertCoins_DoesNotDispenseProduct()
+            {
+                var sut = new VendingMachine();
+                sut.PushCandyButton();
+
+                Assert.Equal(null, sut.ProductTray);
+                Assert.Equal("PRICE: $0.65", sut.Display);
+                Assert.Equal("INSERT COINS", sut.Display);
+            }
+
+            [Fact]
+            public void ChipsButtonPress_WithNoMoneyInserted_DisplaysProductPriceThenInsertCoins_DoesNotDispenseProduct()
+            {
+                var sut = new VendingMachine();
+                sut.PushChipsButton();
+
+                Assert.Equal(null, sut.ProductTray);
+                Assert.Equal("PRICE: $0.50", sut.Display);
+                Assert.Equal("INSERT COINS", sut.Display);
+            }
+        }
+
+        private static class Coins {
+            // US Coin Information - https://www.usmint.gov/about_the_mint/?action=coin_specifications
+            // Candian Coin Information - http://www.mint.ca/store/mint/about-the-mint/canadian-circulation-1100028
+            public static Coin Penny => new Coin(2.5m, 19.05m);
+            public static Coin Nickel => new Coin(5m, 21.21m);
+            public static Coin Dime => new Coin(2.268m, 17.91m);
+            public static Coin Quarter => new Coin(5.670m, 24.26m);
+            public static Coin HalfDollar => new Coin(11.340m, 30.61m);
+            public static Coin PresidentialDollar => new Coin(8.1m, 26.49m);
+            public static Coin CanadianPenny => new Coin(2.35m, 19.05m);
+            public static Coin CanadianNickel => new Coin(3.95m, 21.2m);
+            public static Coin CanadianDime => new Coin(1.75m, 18.03m);
+            public static Coin CanadianQuarter => new Coin(4.4m, 23.88m);
+            public static Coin CanadianHalfDollar => new Coin(6.9m, 27.13m);
+            public static Coin CanadianDollar => new Coin(6.27m, 26.5m);
+            public static Coin CanadianTwoDollar => new Coin(6.92m, 28m);
+        }
+
+        private static class Products
+        {
+            public static Product Cola => new Product("Cola", 1m);
+            public static Product Candy => new Product("Candy", 0.65m);
+            public static Product Chips => new Product("Chips", 0.50m);
         }
     }
 }
