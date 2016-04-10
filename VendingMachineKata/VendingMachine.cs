@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace VendingMachineKata
 {
@@ -11,6 +12,9 @@ namespace VendingMachineKata
         private readonly IReadOnlyDictionary<Coin, Decimal> _coinValueMapping;
         private readonly IReadOnlyList<Product> _products;
         private String _display;
+
+        private readonly List<Coin> _insertedCoins;
+        private readonly List<Coin> _coinReturn;
 
         // US coin values obtained from https://www.usmint.gov/about_the_mint/?action=coin_specifications
         // ReSharper disable InconsistentNaming
@@ -26,6 +30,8 @@ namespace VendingMachineKata
             _coinValueMapping = MapCoinValues();
             _products = InitializeProducts();
             Display = DisplayMessages.InsertCoin;
+            _insertedCoins = new List<Coin>();
+            _coinReturn = new List<Coin>();
         }
 
         public void InsertCoin(Coin coin)
@@ -33,10 +39,11 @@ namespace VendingMachineKata
 
             if (!_validCoins.Contains(coin))
             {
-                CoinReturn = coin;
+                _coinReturn.Add(coin);
                 return;
             }
 
+            _insertedCoins.Add(coin);
             Total += _coinValueMapping[coin];
             Display = TotalFormatted;
         }
@@ -62,8 +69,16 @@ namespace VendingMachineKata
         public Decimal Total { get; set; }
         public String TotalFormatted => Total.ToString("C2");
 
-        public Coin CoinReturn { get; set; }
-        public Decimal CoinReturnTotal { get; set; }
+        public IEnumerable<Coin> CoinReturnSlot => _coinReturn.ToArray();
+
+        public Decimal CoinReturnTotal
+        {
+            get
+            {
+                Decimal value = _coinReturn.Select(x => _coinValueMapping[x]).Sum();
+                return value;
+            }
+        }
 
         public Product ProductTray { get; set; }
 
@@ -95,10 +110,50 @@ namespace VendingMachineKata
             }
 
             ProductTray = product;
+            ProcessRefund(Total - product.Price);
             Display = DisplayMessages.ThankYou;
-            CoinReturnTotal = Total - product.Price;
             Total = 0m;
             _resetDisplayOnNextGet = true;
+        }
+
+        private void ProcessRefund(Decimal amountToRefund)
+        {
+            var refundRemaining = amountToRefund;
+            while (refundRemaining > 0)
+            {
+                var numberOfQuarters = refundRemaining / _coinValueMapping[_quarter];
+                do
+                {
+                    if (numberOfQuarters >= 1)
+                    {
+                        _coinReturn.Add(_quarter);
+                        refundRemaining -= _coinValueMapping[_quarter];
+                    }
+                    numberOfQuarters = refundRemaining / _coinValueMapping[_quarter];
+                } while (numberOfQuarters >= 1);
+
+                var numberOfDimes = refundRemaining / _coinValueMapping[_dime];
+                do
+                {
+                    if (numberOfDimes >= 1)
+                    {
+                        _coinReturn.Add(_dime);
+                        refundRemaining -= _coinValueMapping[_dime];
+                    }
+                    numberOfDimes = refundRemaining / _coinValueMapping[_dime];
+                } while (numberOfDimes >= 1);
+
+                var numberOfNickels = refundRemaining / _coinValueMapping[_nickel];
+                do
+                {
+                    if (numberOfNickels >= 1)
+                    {
+                        _coinReturn.Add(_nickel);
+                        refundRemaining -= _coinValueMapping[_nickel];
+                    }
+                    numberOfNickels = refundRemaining / _coinValueMapping[_nickel];
+                } while (numberOfNickels >= 1);
+            }
         }
 
         private static IReadOnlyList<Coin> SetupValidCoins()
@@ -147,6 +202,14 @@ namespace VendingMachineKata
             {
                 return $"PRICE: {price:C}";
             }
+        }
+
+        public void ReturnCoins()
+        {
+            _coinReturn.AddRange(_insertedCoins);
+            _insertedCoins.Clear();
+            Total = 0m;
+            Display = DisplayMessages.InsertCoin;
         }
     }
 }
