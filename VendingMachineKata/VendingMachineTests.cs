@@ -9,6 +9,14 @@ namespace VendingMachineKata
     {
         public class AcceptCoins
         {
+            [Fact]
+            public void InitialState_HasZeroTotal_DisplaysInsertCoin()
+            {
+                var sut = new VendingMachine();
+                Assert.Equal("INSERT COIN", sut.Display);
+                Assert.Equal(0m, sut.Total);
+            }
+
             [Theory]
             [MemberData("ValidCoinsWithValues")]
             public void InsertCoin_InsertValidCoin_SetsTotal_SetsDisplay(Coin validCoin, Decimal expectedTotal, String expectedDisplay)
@@ -28,7 +36,6 @@ namespace VendingMachineKata
                 Assert.Equal("$0.00", sut.Display);
                 Assert.Equal(.00m, sut.Total);
                 Assert.Equal(invalidCoin, sut.CoinReturn);
-
             }
 
             [Fact]
