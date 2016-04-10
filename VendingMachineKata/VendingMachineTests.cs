@@ -31,6 +31,16 @@ namespace VendingMachineKata
 
             }
 
+            [Fact]
+            public void InsertCoin_InsertMultipleValidCoins_AddsToTotal_SetsDisplay()
+            {
+                var sut = new VendingMachine();
+                sut.InsertCoin(Coins.Nickel);
+                sut.InsertCoin(Coins.Dime);
+                Assert.Equal(0.15m, sut.Total);
+                Assert.Equal("$0.15", sut.Display);
+            }
+
             [SuppressMessage("ReSharper", "UnusedMember.Local")]
             private static IEnumerable<Object> ValidCoinsWithValues()
             {
