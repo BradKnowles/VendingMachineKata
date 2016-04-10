@@ -13,7 +13,7 @@ namespace VendingMachineKata
             public void InitialState_HasZeroTotal_DisplaysInsertCoin()
             {
                 var sut = new VendingMachine();
-                Assert.Equal("INSERT COIN", sut.Display);
+                Assert.Equal("INSERT COINS", sut.Display);
                 Assert.Equal(0m, sut.Total);
             }
 
@@ -114,7 +114,7 @@ namespace VendingMachineKata
 
                 Assert.Equal("THANK YOU", sut.Display);
                 Assert.Equal(Products.Cola, sut.ProductTray);
-                Assert.Equal("INSERT COIN", sut.Display);
+                Assert.Equal("INSERT COINS", sut.Display);
                 Assert.Equal(0m, sut.Total);
             }
 
@@ -130,7 +130,7 @@ namespace VendingMachineKata
 
                 Assert.Equal("THANK YOU", sut.Display);
                 Assert.Equal(Products.Candy, sut.ProductTray);
-                Assert.Equal("INSERT COIN", sut.Display);
+                Assert.Equal("INSERT COINS", sut.Display);
                 Assert.Equal(0m, sut.Total);
             }
 
@@ -147,7 +147,7 @@ namespace VendingMachineKata
 
                 Assert.Equal("THANK YOU", sut.Display);
                 Assert.Equal(Products.Chips, sut.ProductTray);
-                Assert.Equal("INSERT COIN", sut.Display);
+                Assert.Equal("INSERT COINS", sut.Display);
                 Assert.Equal(0m, sut.Total);
             }
 

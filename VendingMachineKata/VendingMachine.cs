@@ -138,7 +138,7 @@ namespace VendingMachineKata
 
         private static class DisplayMessages
         {
-            public const String InsertCoin = "INSERT COIN";
+            public const String InsertCoin = "INSERT COINS";
             public const String ThankYou = "THANK YOU";
 
             public static String Price(Decimal price)
