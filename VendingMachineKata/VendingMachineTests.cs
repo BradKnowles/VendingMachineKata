@@ -152,7 +152,7 @@ namespace VendingMachineKata
             }
 
             [Fact]
-            public void ColaButtonPress_UsingIncorrectChange_DisplaysProductPriceThenInsertCoins_DoesNotDispenseProduct()
+            public void ColaButtonPress_UsingIncorrectChange_DisplaysProductPriceThenCurrentTotal_DoesNotDispenseProduct()
             {
                 var sut = new VendingMachine();
                 sut.InsertCoin(Coins.Quarter);
@@ -160,11 +160,11 @@ namespace VendingMachineKata
 
                 Assert.Equal(null, sut.ProductTray);
                 Assert.Equal("PRICE: $1.00", sut.Display);
-                Assert.Equal("INSERT COIN", sut.Display);
+                Assert.Equal("$0.25", sut.Display);
             }
 
             [Fact]
-            public void CandyButtonPress_UsingIncorrectChange_DisplaysProductPriceThenInsertCoins_DoesNotDispenseProduct()
+            public void CandyButtonPress_UsingIncorrectChange_DisplaysProductPriceThenCurrentTotal_DoesNotDispenseProduct()
             {
                 var sut = new VendingMachine();
                 sut.InsertCoin(Coins.Quarter);
@@ -172,11 +172,11 @@ namespace VendingMachineKata
 
                 Assert.Equal(null, sut.ProductTray);
                 Assert.Equal("PRICE: $0.65", sut.Display);
-                Assert.Equal("INSERT COIN", sut.Display);
+                Assert.Equal("$0.25", sut.Display);
             }
 
             [Fact]
-            public void ChipsButtonPress_UsingIncorrectChange_DisplaysProductPriceThenInsertCoins_DoesNotDispenseProduct()
+            public void ChipsButtonPress_UsingIncorrectChange_DisplaysProductPriceThenCurrentTotal_DoesNotDispenseProduct()
             {
                 var sut = new VendingMachine();
                 sut.InsertCoin(Coins.Quarter);
@@ -184,7 +184,7 @@ namespace VendingMachineKata
 
                 Assert.Equal(null, sut.ProductTray);
                 Assert.Equal("PRICE: $0.50", sut.Display);
-                Assert.Equal("INSERT COIN", sut.Display);
+                Assert.Equal("$0.25", sut.Display);
             }
         }
 
