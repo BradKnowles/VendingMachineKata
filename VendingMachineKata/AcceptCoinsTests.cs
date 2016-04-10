@@ -38,7 +38,7 @@ namespace VendingMachineKata
                 sut.InsertCoin(invalidCoin);
                 Assert.Equal(previousDisplay, sut.Display);
                 Assert.Equal(previousTotal, sut.Total);
-                Assert.Equal(invalidCoin, sut.CoinReturn);
+                Assert.Contains(invalidCoin, sut.CoinReturnSlot);
             }
 
             [Theory]
@@ -55,7 +55,7 @@ namespace VendingMachineKata
                 sut.InsertCoin(invalidCoin);
                 Assert.Equal(validDisplay, sut.Display);
                 Assert.Equal(validTotal, sut.Total);
-                Assert.Equal(invalidCoin, sut.CoinReturn);
+                Assert.Contains(invalidCoin, sut.CoinReturnSlot);
             }
 
             [Fact]

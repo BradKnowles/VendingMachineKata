@@ -38,7 +38,7 @@ namespace VendingMachineKata
 
             if (!_validCoins.Contains(coin))
             {
-                CoinReturn = coin;
+                _coinReturn.Add(coin);
                 return;
             }
 
@@ -67,9 +67,6 @@ namespace VendingMachineKata
 
         public Decimal Total { get; set; }
         public String TotalFormatted => Total.ToString("C2");
-
-        public Coin CoinReturn { get; set; }
-        public Decimal CoinReturnTotal { get; set; }
 
         public IEnumerable<Coin> CoinReturnSlot => _coinReturn.ToArray();
 
@@ -104,7 +101,7 @@ namespace VendingMachineKata
 
             ProductTray = product;
             Display = DisplayMessages.ThankYou;
-            CoinReturnTotal = Total - product.Price;
+            //CoinReturnTotal = Total - product.Price;
             Total = 0m;
             _resetDisplayOnNextGet = true;
         }
