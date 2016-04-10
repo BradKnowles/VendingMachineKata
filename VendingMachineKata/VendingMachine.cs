@@ -25,7 +25,7 @@ namespace VendingMachineKata
             _validCoins = SetupValidCoins();
             _coinValueMapping = MapCoinValues();
             _products = InitializeProducts();
-            Display = "INSERT COIN";
+            Display = DisplayMessages.InsertCoin;
         }
 
         public void InsertCoin(Coin coin)
@@ -49,7 +49,7 @@ namespace VendingMachineKata
                     return _display;
 
                 String currentDisplay = _display;
-                _display = "INSERT COIN";
+                _display = DisplayMessages.InsertCoin;
                 return currentDisplay;
             }
             set
@@ -70,7 +70,7 @@ namespace VendingMachineKata
             if (Total == cola.Price)
             {
                 ProductTray = cola;
-                Display = "THANK YOU";
+                Display = DisplayMessages.ThankYou;
                 _resetDisplayOnNextGet = true;
             }
         }
@@ -110,6 +110,12 @@ namespace VendingMachineKata
 
             IReadOnlyList<Product> products = values;
             return products;
+        }
+
+        private static class DisplayMessages
+        {
+            public const String InsertCoin = "INSERT COIN";
+            public const String ThankYou = "THANK YOU";
         }
     }
 }
