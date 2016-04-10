@@ -103,20 +103,6 @@ namespace VendingMachineKata
         public class SelectProduct
         {
             [Fact]
-            public void ButtonPress_InsertCoinsForProduct_DispenseProduct_DisplaysThankYou()
-            {
-                var sut = new VendingMachine();
-                sut.InsertCoin(Coins.Quarter);
-                sut.InsertCoin(Coins.Quarter);
-                sut.InsertCoin(Coins.Quarter);
-                sut.InsertCoin(Coins.Quarter);
-                sut.PushColaButton();
-                
-                Assert.Equal(sut.Display, "THANK YOU");
-                Assert.Equal(Products.Cola, sut.ProductTray);
-            }
-
-            [Fact]
             public void ButtonPress_InsertCoinsForProductCheckDisplayTwice_DispenseProduct_DisplaysThankYouThenInsertCoins()
             {
                 var sut = new VendingMachine();
