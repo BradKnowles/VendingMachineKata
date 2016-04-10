@@ -115,11 +115,24 @@ namespace VendingMachineKata
                 Assert.Equal(sut.Display, "THANK YOU");
                 Assert.Equal(Products.Cola, sut.ProductTray);
             }
+
+            [Fact]
+            public void ButtonPress_InsertCoinsForProductCheckDisplayTwice_DispenseProduct_DisplaysThankYouThenInsertCoins()
+            {
+                var sut = new VendingMachine();
+                sut.InsertCoin(Coins.Quarter);
+                sut.InsertCoin(Coins.Quarter);
+                sut.InsertCoin(Coins.Quarter);
+                sut.InsertCoin(Coins.Quarter);
+                sut.PushColaButton();
+
+                Assert.Equal(sut.Display, "THANK YOU");
+                Assert.Equal(Products.Cola, sut.ProductTray);
+                Assert.Equal(sut.Display, "INSERT COIN");
+            }
         }
 
-        private static class Coins
-        {
-            // US Coin Information - https://www.usmint.gov/about_the_mint/?action=coin_specifications
+        private static class Coins { // US Coin Information - https://www.usmint.gov/about_the_mint/?action=coin_specifications
             // Candian Coin Information - http://www.mint.ca/store/mint/about-the-mint/canadian-circulation-1100028
             public static Coin Penny => new Coin(2.5m, 19.05m);
             public static Coin Nickel => new Coin(5m, 21.21m);
