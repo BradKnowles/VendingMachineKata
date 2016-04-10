@@ -87,7 +87,7 @@ namespace VendingMachineKata
 
         private void DispenseProduct(Product product)
         {
-            if (Total <= product.Price)
+            if (Total < product.Price)
             {
                 Display = DisplayMessages.Price(product.Price);
                 _resetDisplayOnNextGet = true;
