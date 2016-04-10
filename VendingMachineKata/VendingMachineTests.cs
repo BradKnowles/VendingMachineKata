@@ -150,6 +150,18 @@ namespace VendingMachineKata
                 Assert.Equal("INSERT COIN", sut.Display);
                 Assert.Equal(0m, sut.Total);
             }
+
+            [Fact]
+            public void ColaButtonPress_UsingIncorrectChange_DisplaysProductPriceThenInsertCoins_DoesNotDispenseProduct()
+            {
+                var sut = new VendingMachine();
+                sut.InsertCoin(Coins.Quarter);
+                sut.PushColaButton();
+
+                Assert.Equal(null, sut.ProductTray);
+                Assert.Equal("PRICE: $1.00", sut.Display);
+                Assert.Equal("INSERT COIN", sut.Display);
+            }
         }
 
         private static class Coins { // US Coin Information - https://www.usmint.gov/about_the_mint/?action=coin_specifications
