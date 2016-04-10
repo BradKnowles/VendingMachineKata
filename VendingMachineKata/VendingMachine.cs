@@ -7,8 +7,8 @@ namespace VendingMachineKata
 {
     public class VendingMachine
     {
-        private IReadOnlyList<Coin> _validCoins;
-        private IReadOnlyDictionary<Coin, Decimal> _coinValueMapping;
+        private readonly IReadOnlyList<Coin> _validCoins;
+        private readonly IReadOnlyDictionary<Coin, Decimal> _coinValueMapping;
 
         // US coin values obtained from https://www.usmint.gov/about_the_mint/?action=coin_specifications
         private static readonly Coin _nickel = new Coin(5m, 21.21m);
@@ -30,7 +30,7 @@ namespace VendingMachineKata
                 return;
             }
 
-            Total = _coinValueMapping[coin];
+            Total += _coinValueMapping[coin];
         }
 
         public String Display => Total.ToString("C2");
