@@ -76,6 +76,12 @@ namespace VendingMachineKata
             DispenseProduct(candy);
         }
 
+        public void PushChipsButton()
+        {
+            var chips = _products.First(x => x.Name == "Chips");
+            DispenseProduct(chips);
+        }
+
         private void DispenseProduct(Product product)
         {
             if (Total != product.Price)

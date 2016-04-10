@@ -133,6 +133,23 @@ namespace VendingMachineKata
                 Assert.Equal(sut.Display, "INSERT COIN");
                 Assert.Equal(0m, sut.Total);
             }
+
+            [Fact]
+            public void ButtonPress_InsertCoinsForChipsProductCheckDisplayTwice_DispenseProduct_DisplaysThankYouThenInsertCoins()
+            {
+                var sut = new VendingMachine();
+                sut.InsertCoin(Coins.Dime);
+                sut.InsertCoin(Coins.Dime);
+                sut.InsertCoin(Coins.Dime);
+                sut.InsertCoin(Coins.Dime);
+                sut.InsertCoin(Coins.Dime);
+                sut.PushChipsButton();
+
+                Assert.Equal(sut.Display, "THANK YOU");
+                Assert.Equal(Products.Chips, sut.ProductTray);
+                Assert.Equal(sut.Display, "INSERT COIN");
+                Assert.Equal(0m, sut.Total);
+            }
         }
 
         private static class Coins { // US Coin Information - https://www.usmint.gov/about_the_mint/?action=coin_specifications
@@ -156,6 +173,7 @@ namespace VendingMachineKata
         {
             public static Product Cola => new Product("Cola", 1m);
             public static Product Candy => new Product("Candy", 0.65m);
+            public static Product Chips => new Product("Chips", 0.50m);
         }
     }
 }
