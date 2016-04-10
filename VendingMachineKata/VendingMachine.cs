@@ -12,6 +12,9 @@ namespace VendingMachineKata
         private readonly IReadOnlyList<Product> _products;
         private String _display;
 
+        private readonly List<Coin> _insertedCoins; 
+        private readonly List<Coin> _coinReturn; 
+
         // US coin values obtained from https://www.usmint.gov/about_the_mint/?action=coin_specifications
         // ReSharper disable InconsistentNaming
         private static readonly Coin _nickel = new Coin(5m, 21.21m);
@@ -26,6 +29,8 @@ namespace VendingMachineKata
             _coinValueMapping = MapCoinValues();
             _products = InitializeProducts();
             Display = DisplayMessages.InsertCoin;
+            _insertedCoins = new List<Coin>();
+            _coinReturn = new List<Coin>();
         }
 
         public void InsertCoin(Coin coin)
@@ -37,6 +42,7 @@ namespace VendingMachineKata
                 return;
             }
 
+            _insertedCoins.Add(coin);
             Total += _coinValueMapping[coin];
             Display = TotalFormatted;
         }
@@ -64,7 +70,8 @@ namespace VendingMachineKata
 
         public Coin CoinReturn { get; set; }
         public Decimal CoinReturnTotal { get; set; }
-        public IEnumerable<Coin> CoinReturnSlot { get; set; }
+
+        public IEnumerable<Coin> CoinReturnSlot => _coinReturn.ToArray();
 
         public Product ProductTray { get; set; }
 
@@ -152,7 +159,10 @@ namespace VendingMachineKata
 
         public void ReturnCoins()
         {
-            throw new NotImplementedException();
+            _coinReturn.AddRange(_insertedCoins);
+            _insertedCoins.Clear();
+            Total = 0m;
+            Display = DisplayMessages.InsertCoin;
         }
     }
 }
