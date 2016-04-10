@@ -71,6 +71,7 @@ namespace VendingMachineKata
             {
                 ProductTray = cola;
                 Display = DisplayMessages.ThankYou;
+                Total = 0m;
                 _resetDisplayOnNextGet = true;
             }
         }
