@@ -64,6 +64,7 @@ namespace VendingMachineKata
 
         public Coin CoinReturn { get; set; }
         public Decimal CoinReturnTotal { get; set; }
+        public IEnumerable<Coin> CoinReturnSlot { get; set; }
 
         public Product ProductTray { get; set; }
 
@@ -147,6 +148,11 @@ namespace VendingMachineKata
             {
                 return $"PRICE: {price:C}";
             }
+        }
+
+        public void ReturnCoins()
+        {
+            throw new NotImplementedException();
         }
     }
 }
