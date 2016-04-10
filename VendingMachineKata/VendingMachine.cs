@@ -76,6 +76,17 @@ namespace VendingMachineKata
             }
         }
 
+        public void PushCandyButton()
+        {
+            var candy = _products.First(x => x.Name == "Candy");
+            if (Total == candy.Price)
+            {
+                ProductTray = candy;
+                Display = DisplayMessages.ThankYou;
+                Total = 0m;
+                _resetDisplayOnNextGet = true;
+            }
+        }
         private static IReadOnlyList<Coin> SetupValidCoins()
         {
             var validCoins = new List<Coin>

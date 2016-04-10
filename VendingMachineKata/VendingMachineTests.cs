@@ -126,7 +126,7 @@ namespace VendingMachineKata
                 sut.InsertCoin(Coins.Quarter);
                 sut.InsertCoin(Coins.Dime);
                 sut.InsertCoin(Coins.Nickel);
-                sut.PushColaButton();
+                sut.PushCandyButton();
 
                 Assert.Equal(sut.Display, "THANK YOU");
                 Assert.Equal(Products.Candy, sut.ProductTray);
