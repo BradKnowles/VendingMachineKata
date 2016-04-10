@@ -32,9 +32,29 @@ namespace VendingMachineKata
             public void InsertCoin_InsertAnyNonValidCoin_DoesNotChangeTotal_SendsToCoinReturn(Coin invalidCoin)
             {
                 var sut = new VendingMachine();
+                Decimal previousTotal = sut.Total;
+                String previousDisplay = sut.Display;
+
                 sut.InsertCoin(invalidCoin);
-                Assert.Equal("$0.00", sut.Display);
-                Assert.Equal(.00m, sut.Total);
+                Assert.Equal(previousDisplay, sut.Display);
+                Assert.Equal(previousTotal, sut.Total);
+                Assert.Equal(invalidCoin, sut.CoinReturn);
+            }
+
+            [Theory]
+            [MemberData("InvalidCoins")]
+            public void InsertCoin_InsertValidCoinsFollowedByInvalidCoin_DoesNotChangeTotal_SendsToCoinReturn(Coin invalidCoin)
+            {
+                var sut = new VendingMachine();
+                sut.InsertCoin(Coins.Quarter);
+                sut.InsertCoin(Coins.Quarter);
+
+                Decimal validTotal = sut.Total;
+                String validDisplay = sut.Display;
+
+                sut.InsertCoin(invalidCoin);
+                Assert.Equal(validDisplay, sut.Display);
+                Assert.Equal(validTotal, sut.Total);
                 Assert.Equal(invalidCoin, sut.CoinReturn);
             }
 
