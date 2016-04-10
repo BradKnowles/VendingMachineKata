@@ -33,7 +33,16 @@ namespace VendingMachineKata
             Total += _coinValueMapping[coin];
         }
 
-        public String Display => Total.ToString("C2");
+        public String Display
+        {
+            get
+            {
+                if (Total == 0m)
+                    return "INSERT COIN";
+
+                return Total.ToString("C2");
+            }
+        }
 
         public Decimal Total { get; set; }
 
