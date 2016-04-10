@@ -10,12 +10,14 @@ namespace VendingMachineKata
         private readonly IReadOnlyList<Coin> _validCoins;
         private readonly IReadOnlyDictionary<Coin, Decimal> _coinValueMapping;
         private readonly IReadOnlyList<Product> _products;
+        private String _display;
 
         // US coin values obtained from https://www.usmint.gov/about_the_mint/?action=coin_specifications
         // ReSharper disable InconsistentNaming
         private static readonly Coin _nickel = new Coin(5m, 21.21m);
         private static readonly Coin _dime = new Coin(2.268m, 17.91m);
         private static readonly Coin _quarter = new Coin(5.670m, 24.26m);
+        private Boolean _resetDisplayOnNextGet;
         // ReSharper restore InconsistentNaming
 
         public VendingMachine()
@@ -39,7 +41,22 @@ namespace VendingMachineKata
             Display = Total.ToString("C2");
         }
 
-        public String Display { get; set; }
+        public String Display
+        {
+            get
+            {
+                if (!_resetDisplayOnNextGet)
+                    return _display;
+
+                String currentDisplay = _display;
+                _display = "INSERT COIN";
+                return currentDisplay;
+            }
+            set
+            {
+                _display = value;
+            }
+        }
 
         public Decimal Total { get; set; }
 
@@ -54,6 +71,7 @@ namespace VendingMachineKata
             {
                 ProductTray = cola;
                 Display = "THANK YOU";
+                _resetDisplayOnNextGet = true;
             }
         }
 
