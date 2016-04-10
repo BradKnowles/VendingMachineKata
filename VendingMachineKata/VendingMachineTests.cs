@@ -138,11 +138,7 @@ namespace VendingMachineKata
 
         private static class Products
         {
-            public static Product Cola => new Product();
+            public static Product Cola => new Product("Cola", 1m);
         }
-    }
-
-    public class Product
-    {
     }
 }

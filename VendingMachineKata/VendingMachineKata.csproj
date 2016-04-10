@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Coin.cs" />
+    <Compile Include="Product.cs" />
     <Compile Include="VendingMachine.cs" />
     <Compile Include="VendingMachineTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -9,6 +9,7 @@ namespace VendingMachineKata
     {
         private readonly IReadOnlyList<Coin> _validCoins;
         private readonly IReadOnlyDictionary<Coin, Decimal> _coinValueMapping;
+        private readonly IReadOnlyList<Product> _products;
 
         // US coin values obtained from https://www.usmint.gov/about_the_mint/?action=coin_specifications
         // ReSharper disable InconsistentNaming
@@ -21,6 +22,8 @@ namespace VendingMachineKata
         {
             _validCoins = SetupValidCoins();
             _coinValueMapping = MapCoinValues();
+            _products = InitializeProducts();
+            Display = "INSERT COIN";
         }
 
         public void InsertCoin(Coin coin)
@@ -33,13 +36,26 @@ namespace VendingMachineKata
             }
 
             Total += _coinValueMapping[coin];
+            Display = Total.ToString("C2");
         }
 
-        public String Display => Total == 0m ? "INSERT COIN" : Total.ToString("C2");
+        public String Display { get; set; }
 
         public Decimal Total { get; set; }
 
         public Coin CoinReturn { get; set; }
+
+        public Product ProductTray { get; set; }
+
+        public void PushColaButton()
+        {
+            var cola = _products.First(x => x.Name == "Cola");
+            if (Total == cola.Price)
+            {
+                ProductTray = cola;
+                Display = "THANK YOU";
+            }
+        }
 
         private static IReadOnlyList<Coin> SetupValidCoins()
         {
@@ -63,6 +79,19 @@ namespace VendingMachineKata
                 { _quarter, 0.25m}
             };
             return new ReadOnlyDictionary<Coin, Decimal>(values);
+        }
+
+        private static IReadOnlyList<Product> InitializeProducts()
+        {
+            var values = new List<Product>
+            {
+                {new Product("Cola", 1m)},
+                {new Product("Chips", 0.50m)},
+                {new Product("Candy", 0.65m)}
+            };
+
+            IReadOnlyList<Product> products = values;
+            return products;
         }
     }
 }
