@@ -38,19 +38,20 @@ namespace VendingMachineKata
             }
 
             Total += _coinValueMapping[coin];
-            Display = Total.ToString("C2");
+            Display = TotalFormatted;
         }
 
         public String Display
         {
             get
             {
-                if (!_resetDisplayOnNextGet)
-                    return _display;
-
-                String currentDisplay = _display;
-                _display = DisplayMessages.InsertCoin;
-                return currentDisplay;
+                if (_resetDisplayOnNextGet)
+                {
+                    String currentDisplay = _display;
+                    _display = Total > 0 ? TotalFormatted : DisplayMessages.InsertCoin;
+                    return currentDisplay;
+                }
+                return _display;
             }
             set
             {
@@ -59,6 +60,7 @@ namespace VendingMachineKata
         }
 
         public Decimal Total { get; set; }
+        public String TotalFormatted => Total.ToString("C2");
 
         public Coin CoinReturn { get; set; }
 
