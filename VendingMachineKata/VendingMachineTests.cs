@@ -103,7 +103,7 @@ namespace VendingMachineKata
         public class SelectProduct
         {
             [Fact]
-            public void ButtonPress_InsertCoinsForProductCheckDisplayTwice_DispenseProduct_DisplaysThankYouThenInsertCoins()
+            public void ButtonPress_InsertCoinsForColaProductCheckDisplayTwice_DispenseProduct_DisplaysThankYouThenInsertCoins()
             {
                 var sut = new VendingMachine();
                 sut.InsertCoin(Coins.Quarter);
@@ -114,6 +114,22 @@ namespace VendingMachineKata
 
                 Assert.Equal(sut.Display, "THANK YOU");
                 Assert.Equal(Products.Cola, sut.ProductTray);
+                Assert.Equal(sut.Display, "INSERT COIN");
+                Assert.Equal(0m, sut.Total);
+            }
+
+            [Fact]
+            public void ButtonPress_InsertCoinsForCandyProductCheckDisplayTwice_DispenseProduct_DisplaysThankYouThenInsertCoins()
+            {
+                var sut = new VendingMachine();
+                sut.InsertCoin(Coins.Quarter);
+                sut.InsertCoin(Coins.Quarter);
+                sut.InsertCoin(Coins.Dime);
+                sut.InsertCoin(Coins.Nickel);
+                sut.PushColaButton();
+
+                Assert.Equal(sut.Display, "THANK YOU");
+                Assert.Equal(Products.Candy, sut.ProductTray);
                 Assert.Equal(sut.Display, "INSERT COIN");
                 Assert.Equal(0m, sut.Total);
             }
@@ -139,6 +155,7 @@ namespace VendingMachineKata
         private static class Products
         {
             public static Product Cola => new Product("Cola", 1m);
+            public static Product Candy => new Product("Candy", 0.65m);
         }
     }
 }
