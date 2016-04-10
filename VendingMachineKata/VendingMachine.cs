@@ -211,5 +211,10 @@ namespace VendingMachineKata
             Total = 0m;
             Display = DisplayMessages.InsertCoin;
         }
+
+        public void UpdateProductStatus(String product, String status)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

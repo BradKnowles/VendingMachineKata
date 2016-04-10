@@ -65,6 +65,7 @@
     <Compile Include="Product.cs" />
     <Compile Include="ReturnCoinsTests.cs" />
     <Compile Include="SelectProductsTests.cs" />
+    <Compile Include="SoldOutTests.cs" />
     <Compile Include="VendingMachine.cs" />
     <Compile Include="VendingMachineTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
