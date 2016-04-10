@@ -103,7 +103,7 @@ namespace VendingMachineKata
         public class SelectProduct
         {
             [Fact]
-            public void ButtonPress_InsertCoinsForColaProductCheckDisplayTwice_DispenseProduct_DisplaysThankYouThenInsertCoins()
+            public void ColaButtonPress_UsingCorrectChange_DispenseProduct_DisplaysThankYouThenInsertCoins_SetsTotalToZero()
             {
                 var sut = new VendingMachine();
                 sut.InsertCoin(Coins.Quarter);
@@ -119,7 +119,7 @@ namespace VendingMachineKata
             }
 
             [Fact]
-            public void ButtonPress_InsertCoinsForCandyProductCheckDisplayTwice_DispenseProduct_DisplaysThankYouThenInsertCoins()
+            public void CandyButtonPress_UsingCorrectChange_DispenseProduct_DisplaysThankYouThenInsertCoins_SetsTotalToZero()
             {
                 var sut = new VendingMachine();
                 sut.InsertCoin(Coins.Quarter);
@@ -135,7 +135,7 @@ namespace VendingMachineKata
             }
 
             [Fact]
-            public void ButtonPress_InsertCoinsForChipsProductCheckDisplayTwice_DispenseProduct_DisplaysThankYouThenInsertCoins()
+            public void ChipsButtonPress_UsingCorrectChange_DispenseProduct_DisplaysThankYouThenInsertCoins_SetsTotalToZero()
             {
                 var sut = new VendingMachine();
                 sut.InsertCoin(Coins.Dime);
