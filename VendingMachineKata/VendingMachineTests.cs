@@ -162,9 +162,34 @@ namespace VendingMachineKata
                 Assert.Equal("PRICE: $1.00", sut.Display);
                 Assert.Equal("INSERT COIN", sut.Display);
             }
+
+            [Fact]
+            public void CandyButtonPress_UsingIncorrectChange_DisplaysProductPriceThenInsertCoins_DoesNotDispenseProduct()
+            {
+                var sut = new VendingMachine();
+                sut.InsertCoin(Coins.Quarter);
+                sut.PushCandyButton();
+
+                Assert.Equal(null, sut.ProductTray);
+                Assert.Equal("PRICE: $0.65", sut.Display);
+                Assert.Equal("INSERT COIN", sut.Display);
+            }
+
+            [Fact]
+            public void ChipsButtonPress_UsingIncorrectChange_DisplaysProductPriceThenInsertCoins_DoesNotDispenseProduct()
+            {
+                var sut = new VendingMachine();
+                sut.InsertCoin(Coins.Quarter);
+                sut.PushChipsButton();
+
+                Assert.Equal(null, sut.ProductTray);
+                Assert.Equal("PRICE: $0.50", sut.Display);
+                Assert.Equal("INSERT COIN", sut.Display);
+            }
         }
 
-        private static class Coins { // US Coin Information - https://www.usmint.gov/about_the_mint/?action=coin_specifications
+        private static class Coins {
+            // US Coin Information - https://www.usmint.gov/about_the_mint/?action=coin_specifications
             // Candian Coin Information - http://www.mint.ca/store/mint/about-the-mint/canadian-circulation-1100028
             public static Coin Penny => new Coin(2.5m, 19.05m);
             public static Coin Nickel => new Coin(5m, 21.21m);

@@ -85,7 +85,11 @@ namespace VendingMachineKata
         private void DispenseProduct(Product product)
         {
             if (Total != product.Price)
+            {
+                Display = DisplayMessages.Price(product.Price);
+                _resetDisplayOnNextGet = true;
                 return;
+            }
 
             ProductTray = product;
             Display = DisplayMessages.ThankYou;
@@ -134,6 +138,11 @@ namespace VendingMachineKata
         {
             public const String InsertCoin = "INSERT COIN";
             public const String ThankYou = "THANK YOU";
+
+            public static String Price(Decimal price)
+            {
+                return $"PRICE: {price:C}";
+            }
         }
     }
 }
