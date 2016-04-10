@@ -1,5 +1,4 @@
-﻿using System;
-using Xunit;
+﻿using Xunit;
 
 namespace VendingMachineKata
 {
@@ -28,39 +27,5 @@ namespace VendingMachineKata
                 Assert.Equal(penny, sut.CoinReturn);
             }
         }
-    }
-
-    public class Coin
-    {
-        public Decimal WeightInGrams { get; set; }
-        public Decimal DiameterinMillimeters { get; set; }
-
-        public Coin(Decimal weightInGrams, Decimal diameterinMillimeters)
-        {
-            WeightInGrams = weightInGrams;
-            DiameterinMillimeters = diameterinMillimeters;
-        }
-    }
-
-    public class VendingMachine
-    {
-        public void InsertCoin(Coin coin)
-        {
-            if (coin.WeightInGrams == 2.5m && coin.DiameterinMillimeters == 19.05m)
-            {
-                Display = "$0.00";
-                CoinReturn = coin;
-                Total = 0m;
-            }
-            else
-            {
-                Display = "$0.05";
-                Total = .05m;
-            }
-        }
-
-        public String Display { get; set; }
-        public Decimal Total { get; set; }
-        public Coin CoinReturn { get; set; }
     }
 }
