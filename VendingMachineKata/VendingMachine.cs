@@ -11,6 +11,7 @@ namespace VendingMachineKata
         private readonly IReadOnlyList<Coin> _validCoins;
         private readonly IReadOnlyDictionary<Coin, Decimal> _coinValueMapping;
         private readonly IReadOnlyList<Product> _products;
+        private Dictionary<Product, String> _productStatus;
         private String _display;
 
         private readonly List<Coin> _insertedCoins;
@@ -29,9 +30,19 @@ namespace VendingMachineKata
             _validCoins = SetupValidCoins();
             _coinValueMapping = MapCoinValues();
             _products = InitializeProducts();
+            InitializeProductStatuses();
             Display = DisplayMessages.InsertCoin;
             _insertedCoins = new List<Coin>();
             _coinReturn = new List<Coin>();
+        }
+
+        private void InitializeProductStatuses()
+        {
+            _productStatus = new Dictionary<Product, String>();
+            foreach (var product in _products)
+            {
+                _productStatus.Add(product, "AVAILABLE");
+            }
         }
 
         public void InsertCoin(Coin coin)
@@ -102,6 +113,13 @@ namespace VendingMachineKata
 
         private void DispenseProduct(Product product)
         {
+            if (!ProductIsAvailable(product))
+            {
+                Display = DisplayMessages.SoldOut;
+                _resetDisplayOnNextGet = true;
+                return;
+            }
+
             if (Total < product.Price)
             {
                 Display = DisplayMessages.Price(product.Price);
@@ -114,6 +132,11 @@ namespace VendingMachineKata
             Display = DisplayMessages.ThankYou;
             Total = 0m;
             _resetDisplayOnNextGet = true;
+        }
+
+        private Boolean ProductIsAvailable(Product product)
+        {
+            return _productStatus[product] != "SOLD OUT";
         }
 
         private void ProcessRefund(Decimal amountToRefund)
@@ -197,6 +220,7 @@ namespace VendingMachineKata
         {
             public const String InsertCoin = "INSERT COINS";
             public const String ThankYou = "THANK YOU";
+            public static String SoldOut = "SOLD OUT";
 
             public static String Price(Decimal price)
             {
@@ -212,9 +236,11 @@ namespace VendingMachineKata
             Display = DisplayMessages.InsertCoin;
         }
 
-        public void UpdateProductStatus(String product, String status)
+        public void UpdateProductStatus(String productName, String status)
         {
-            throw new NotImplementedException();
+            var product = _products.FirstOrDefault(x => x.Name == productName);
+            if (product != null)
+                _productStatus[product] = "SOLD OUT";
         }
     }
 }
