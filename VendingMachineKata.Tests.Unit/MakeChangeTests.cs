@@ -1,7 +1,6 @@
 ﻿using Xunit;
-using Xunit.Sdk;
 
-namespace VendingMachineKata
+namespace VendingMachineKata.Tests.Unit
 {
     public partial class VendingMachineTests
     {

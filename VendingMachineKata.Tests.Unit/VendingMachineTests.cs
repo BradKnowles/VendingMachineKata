@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using Xunit;
-
-namespace VendingMachineKata
+﻿namespace VendingMachineKata.Tests.Unit
 {
     public partial class VendingMachineTests
     {
