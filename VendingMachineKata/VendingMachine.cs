@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text.RegularExpressions;
 
 namespace VendingMachineKata
 {
@@ -11,6 +10,7 @@ namespace VendingMachineKata
         private readonly IReadOnlyList<Coin> _validCoins;
         private readonly IReadOnlyDictionary<Coin, Decimal> _coinValueMapping;
         private readonly IReadOnlyList<Product> _products;
+        private Dictionary<Product, String> _productStatus;
         private String _display;
 
         private readonly List<Coin> _insertedCoins;
@@ -29,6 +29,8 @@ namespace VendingMachineKata
             _validCoins = SetupValidCoins();
             _coinValueMapping = MapCoinValues();
             _products = InitializeProducts();
+            InitializeProductStatuses();
+
             Display = DisplayMessages.InsertCoin;
             _insertedCoins = new List<Coin>();
             _coinReturn = new List<Coin>();
@@ -46,6 +48,47 @@ namespace VendingMachineKata
             _insertedCoins.Add(coin);
             Total += _coinValueMapping[coin];
             Display = TotalFormatted;
+        }
+
+        public void PushColaButton()
+        {
+            var cola = _products.First(x => x.Name == "Cola");
+            DispenseProduct(cola);
+        }
+
+        public void PushCandyButton()
+        {
+            var candy = _products.First(x => x.Name == "Candy");
+            DispenseProduct(candy);
+        }
+
+        public void PushChipsButton()
+        {
+            var chips = _products.First(x => x.Name == "Chips");
+            DispenseProduct(chips);
+        }
+
+        private void DispenseProduct(Product product)
+        {
+            if (!ProductIsAvailable(product))
+            {
+                Display = DisplayMessages.SoldOut;
+                _resetDisplayOnNextGet = true;
+                return;
+            }
+
+            if (Total < product.Price)
+            {
+                Display = DisplayMessages.Price(product.Price);
+                _resetDisplayOnNextGet = true;
+                return;
+            }
+
+            ProductTray = product;
+            ProcessRefund(Total - product.Price);
+            Display = DisplayMessages.ThankYou;
+            Total = 0m;
+            _resetDisplayOnNextGet = true;
         }
 
         public String Display
@@ -70,7 +113,6 @@ namespace VendingMachineKata
         public String TotalFormatted => Total.ToString("C2");
 
         public IEnumerable<Coin> CoinReturnSlot => _coinReturn.ToArray();
-
         public Decimal CoinReturnTotal
         {
             get
@@ -82,38 +124,9 @@ namespace VendingMachineKata
 
         public Product ProductTray { get; set; }
 
-        public void PushColaButton()
+        private Boolean ProductIsAvailable(Product product)
         {
-            var cola = _products.First(x => x.Name == "Cola");
-            DispenseProduct(cola);
-        }
-
-        public void PushCandyButton()
-        {
-            var candy = _products.First(x => x.Name == "Candy");
-            DispenseProduct(candy);
-        }
-
-        public void PushChipsButton()
-        {
-            var chips = _products.First(x => x.Name == "Chips");
-            DispenseProduct(chips);
-        }
-
-        private void DispenseProduct(Product product)
-        {
-            if (Total < product.Price)
-            {
-                Display = DisplayMessages.Price(product.Price);
-                _resetDisplayOnNextGet = true;
-                return;
-            }
-
-            ProductTray = product;
-            ProcessRefund(Total - product.Price);
-            Display = DisplayMessages.ThankYou;
-            Total = 0m;
-            _resetDisplayOnNextGet = true;
+            return _productStatus[product] != "SOLD OUT";
         }
 
         private void ProcessRefund(Decimal amountToRefund)
@@ -156,6 +169,21 @@ namespace VendingMachineKata
             }
         }
 
+        public void ReturnCoins()
+        {
+            _coinReturn.AddRange(_insertedCoins);
+            _insertedCoins.Clear();
+            Total = 0m;
+            Display = DisplayMessages.InsertCoin;
+        }
+
+        public void UpdateProductStatus(String productName, String status)
+        {
+            var product = _products.FirstOrDefault(x => x.Name == productName);
+            if (product != null)
+                _productStatus[product] = status;
+        }
+
         private static IReadOnlyList<Coin> SetupValidCoins()
         {
             var validCoins = new List<Coin>
@@ -193,23 +221,25 @@ namespace VendingMachineKata
             return products;
         }
 
+        private void InitializeProductStatuses()
+        {
+            _productStatus = new Dictionary<Product, String>();
+            foreach (var product in _products)
+            {
+                _productStatus.Add(product, "AVAILABLE");
+            }
+        }
+
         private static class DisplayMessages
         {
             public const String InsertCoin = "INSERT COINS";
             public const String ThankYou = "THANK YOU";
+            public const String SoldOut = "SOLD OUT";
 
             public static String Price(Decimal price)
             {
                 return $"PRICE: {price:C}";
             }
-        }
-
-        public void ReturnCoins()
-        {
-            _coinReturn.AddRange(_insertedCoins);
-            _insertedCoins.Clear();
-            Total = 0m;
-            Display = DisplayMessages.InsertCoin;
         }
     }
 }
