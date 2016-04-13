@@ -7,7 +7,6 @@ namespace VendingMachineKata.Modules
         String ReadOut { get; }
         void DefaultState();
         void UpdateInsertedCoinValue(Decimal coinTotal);
-        //void ShowValueInsertedCoins(Decimal value);
         void PurchaseMade();
         void InsufficientFundsForProduct(Decimal productPrice);
         void ProductNotAvailable();
