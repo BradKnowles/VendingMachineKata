@@ -9,7 +9,7 @@ namespace VendingMachineKata.Modules
         void UpdateInsertedCoinValue(Decimal coinTotal);
         //void ShowValueInsertedCoins(Decimal value);
         void PurchaseMade();
-        void InsufficientFundsForProduct(Decimal productPrice, Decimal valueInsertedCoins);
+        void InsufficientFundsForProduct(Decimal productPrice);
         void ProductNotAvailable();
     }
 }

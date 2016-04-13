@@ -37,7 +37,7 @@ namespace VendingMachineKata.Modules
             _resetToDefaultMessageAfterDisplay = true;
         }
 
-        public void InsufficientFundsForProduct(Decimal productPrice, Decimal valueForInsertedCoins)
+        public void InsufficientFundsForProduct(Decimal productPrice)
         {
             ReadOut = Messages.ProductPrice(productPrice);
             _resetToDefaultMessageAfterDisplay = true;

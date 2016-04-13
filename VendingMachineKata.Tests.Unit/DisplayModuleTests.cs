@@ -6,7 +6,7 @@ namespace VendingMachineKata.Tests.Unit
     public class DisplayModuleTests
     {
         [Fact]
-        public void DefaultState_NoCoins_Inserted_DisplayInsertCoins()
+        public void DefaultState_CoinsNotInserted_DisplayInsertCoins()
         {
             var sut = new DisplayModule();
 
@@ -18,7 +18,6 @@ namespace VendingMachineKata.Tests.Unit
         [Fact]
         public void DefaultState_CoinsInserted_DisplayTotalValue()
         {
-
             var sut = new DisplayModule();
 
             sut.UpdateInsertedCoinValue(0.15m);
@@ -28,22 +27,47 @@ namespace VendingMachineKata.Tests.Unit
         }
 
         [Fact]
-        public void PurchaseMade_ReadOfDisplay_FirstDisplayThankYouThenInsertCoins()
+        public void PurchaseMade_CoinsNotInserted_FirstDisplayThankYouThenInsertCoins()
         {
             var sut = new DisplayModule();
+
             sut.PurchaseMade();
+
             Assert.Equal("THANK YOU", sut.ReadOut);
             Assert.Equal("INSERT COINS", sut.ReadOut);
-
         }
 
         [Fact]
-        public void PurchaseMadeInsufficientFunds_ReadOfDisplay_FirstDisplayProductPriceThenInsertCoins()
+        public void PurchaseMade_CoinsInserted_FirstDisplayThankYouThenInsertCoins()
+        {
+            var sut = new DisplayModule();
+
+            sut.UpdateInsertedCoinValue(.50m);
+            sut.PurchaseMade();
+            sut.UpdateInsertedCoinValue(0m);
+
+            Assert.Equal("THANK YOU", sut.ReadOut);
+            Assert.Equal("INSERT COINS", sut.ReadOut);
+        }
+
+        [Fact]
+        public void PurchaseMadeInsufficientFunds_CoinsNotInserted_FirstDisplayProductPriceThenInsertCoins()
+        {
+            var sut = new DisplayModule();
+
+            sut.InsufficientFundsForProduct(.25m);
+
+            Assert.Equal("PRICE: $0.25", sut.ReadOut);
+            Assert.Equal("INSERT COINS", sut.ReadOut);
+        }
+
+        [Fact]
+        public void PurchaseMadeInsufficientFunds_CoinsInserted_FirstDisplayProductPriceThenInsertCoins()
         {
             var sut = new DisplayModule();
 
             sut.UpdateInsertedCoinValue(.05m);
-            sut.InsufficientFundsForProduct(.25m, .05m);
+            sut.InsufficientFundsForProduct(.25m);
 
             Assert.Equal("PRICE: $0.25", sut.ReadOut);
             Assert.Equal("$0.05", sut.ReadOut);

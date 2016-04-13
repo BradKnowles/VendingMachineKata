@@ -81,7 +81,7 @@ namespace VendingMachineKata
 
             if (Total < product.Price)
             {
-                _displayModule.InsufficientFundsForProduct(product.Price, Total);
+                _displayModule.InsufficientFundsForProduct(product.Price);
                 return;
             }
 
