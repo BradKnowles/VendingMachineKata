@@ -26,5 +26,15 @@ namespace VendingMachineKata.Tests.Unit
 
             Assert.Equal("$0.15", sut.ReadOut);
         }
+
+        [Fact]
+        public void PurchaseMade_ReadOfDisplay_FirstDisplayThankYouThenInsertCoins()
+        {
+            var sut = new DisplayModule();
+            sut.PurchaseMade();
+            Assert.Equal("THANK YOU", sut.ReadOut);
+            Assert.Equal("INSERT COINS", sut.ReadOut);
+
+        }
     }
 }
