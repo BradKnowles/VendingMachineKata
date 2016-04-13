@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using Xunit;
 
-namespace VendingMachineKata
+namespace VendingMachineKata.Tests.Unit
 {
     public partial class VendingMachineTests
     {
@@ -10,7 +10,7 @@ namespace VendingMachineKata
             [Fact]
             public void ReturnCoinPressed_WhenCustomerInsertedCoins_ReturnsCoins_DisplaysInsertCoins()
             {
-                var sut = new VendingMachine();
+                var sut = GetDefaultInstance();
                 sut.InsertCoin(Coins.Quarter);
                 sut.InsertCoin(Coins.Nickel);
                 sut.InsertCoin(Coins.Dime);
@@ -26,7 +26,7 @@ namespace VendingMachineKata
             [Fact]
             public void ReturnCoinPressed_WhenCustomerInsertsMultipleSimiliarCoins_ReturnsCorrectNumberAndTypeOfCoins_DisplaysInsertCoins()
             {
-                var sut = new VendingMachine();
+                var sut = GetDefaultInstance();
                 sut.InsertCoin(Coins.Quarter);
                 sut.InsertCoin(Coins.Quarter);
                 sut.InsertCoin(Coins.Nickel);

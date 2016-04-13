@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using Xunit;
+﻿using VendingMachineKata.Modules;
 
-namespace VendingMachineKata
+namespace VendingMachineKata.Tests.Unit
 {
     public partial class VendingMachineTests
     {
+        public static VendingMachine GetDefaultInstance()
+        {
+            return new VendingMachine(new DisplayModule());
+        }
         private static class Coins {
             // US Coin Information - https://www.usmint.gov/about_the_mint/?action=coin_specifications
             // Candian Coin Information - http://www.mint.ca/store/mint/about-the-mint/canadian-circulation-1100028

@@ -1,6 +1,6 @@
 ﻿using Xunit;
 
-namespace VendingMachineKata
+namespace VendingMachineKata.Tests.Unit
 {
     public partial class VendingMachineTests
     {
@@ -9,7 +9,7 @@ namespace VendingMachineKata
             [Fact]
             public void ColaButtonPress_UsingCorrectChange_DispenseProduct_DisplaysThankYouThenInsertCoins_SetsTotalToZero()
             {
-                var sut = new VendingMachine();
+                var sut = GetDefaultInstance();
                 sut.InsertCoin(Coins.Quarter);
                 sut.InsertCoin(Coins.Quarter);
                 sut.InsertCoin(Coins.Quarter);
@@ -25,7 +25,7 @@ namespace VendingMachineKata
             [Fact]
             public void CandyButtonPress_UsingCorrectChange_DispenseProduct_DisplaysThankYouThenInsertCoins_SetsTotalToZero()
             {
-                var sut = new VendingMachine();
+                var sut = GetDefaultInstance();
                 sut.InsertCoin(Coins.Quarter);
                 sut.InsertCoin(Coins.Quarter);
                 sut.InsertCoin(Coins.Dime);
@@ -41,7 +41,7 @@ namespace VendingMachineKata
             [Fact]
             public void ChipsButtonPress_UsingCorrectChange_DispenseProduct_DisplaysThankYouThenInsertCoins_SetsTotalToZero()
             {
-                var sut = new VendingMachine();
+                var sut = GetDefaultInstance();
                 sut.InsertCoin(Coins.Dime);
                 sut.InsertCoin(Coins.Dime);
                 sut.InsertCoin(Coins.Dime);
@@ -58,7 +58,7 @@ namespace VendingMachineKata
             [Fact]
             public void ColaButtonPress_UsingIncorrectChange_DisplaysProductPriceThenCurrentTotal_DoesNotDispenseProduct()
             {
-                var sut = new VendingMachine();
+                var sut = GetDefaultInstance();
                 sut.InsertCoin(Coins.Quarter);
                 sut.PushColaButton();
 
@@ -70,7 +70,7 @@ namespace VendingMachineKata
             [Fact]
             public void CandyButtonPress_UsingIncorrectChange_DisplaysProductPriceThenCurrentTotal_DoesNotDispenseProduct()
             {
-                var sut = new VendingMachine();
+                var sut = GetDefaultInstance();
                 sut.InsertCoin(Coins.Quarter);
                 sut.PushCandyButton();
 
@@ -82,7 +82,7 @@ namespace VendingMachineKata
             [Fact]
             public void ChipsButtonPress_UsingIncorrectChange_DisplaysProductPriceThenCurrentTotal_DoesNotDispenseProduct()
             {
-                var sut = new VendingMachine();
+                var sut = GetDefaultInstance();
                 sut.InsertCoin(Coins.Quarter);
                 sut.PushChipsButton();
 
@@ -94,7 +94,7 @@ namespace VendingMachineKata
             [Fact]
             public void ColaButtonPress_WithNoMoneyInserted_DisplaysProductPriceThenInsertCoins_DoesNotDispenseProduct()
             {
-                var sut = new VendingMachine();
+                var sut = GetDefaultInstance();
                 sut.PushColaButton();
 
                 Assert.Equal(null, sut.ProductTray);
@@ -105,7 +105,7 @@ namespace VendingMachineKata
             [Fact]
             public void CandyButtonPress_WithNoMoneyInserted_DisplaysProductPriceThenInsertCoins_DoesNotDispenseProduct()
             {
-                var sut = new VendingMachine();
+                var sut = GetDefaultInstance();
                 sut.PushCandyButton();
 
                 Assert.Equal(null, sut.ProductTray);
@@ -116,7 +116,7 @@ namespace VendingMachineKata
             [Fact]
             public void ChipsButtonPress_WithNoMoneyInserted_DisplaysProductPriceThenInsertCoins_DoesNotDispenseProduct()
             {
-                var sut = new VendingMachine();
+                var sut = GetDefaultInstance();
                 sut.PushChipsButton();
 
                 Assert.Equal(null, sut.ProductTray);
