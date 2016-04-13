@@ -47,7 +47,29 @@ namespace VendingMachineKata.Tests.Unit
 
             Assert.Equal("PRICE: $0.25", sut.ReadOut);
             Assert.Equal("$0.05", sut.ReadOut);
+        }
 
+        [Fact]
+        public void ProductSoldOut_CoinsNotInserted_ReadOfDisplay_FirstDisplayProductPriceThenInsertCoins()
+        {
+            var sut = new DisplayModule();
+
+            sut.ProductNotAvailable();
+
+            Assert.Equal("SOLD OUT", sut.ReadOut);
+            Assert.Equal("INSERT COINS", sut.ReadOut);
+        }
+
+        [Fact]
+        public void ProductSoldOut_CoinsInserted_ReadOfDisplay_FirstDisplayProductPriceThenInsertCoins()
+        {
+            var sut = new DisplayModule();
+
+            sut.UpdateInsertedCoinValue(.50m);
+            sut.ProductNotAvailable();
+
+            Assert.Equal("SOLD OUT", sut.ReadOut);
+            Assert.Equal("$0.50", sut.ReadOut);
         }
     }
 }
