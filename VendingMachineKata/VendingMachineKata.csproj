@@ -43,6 +43,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Coin.cs" />
+    <Compile Include="Modules\DisplayModule.cs" />
+    <Compile Include="Modules\IDisplayModule.cs" />
     <Compile Include="Product.cs" />
     <Compile Include="VendingMachine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

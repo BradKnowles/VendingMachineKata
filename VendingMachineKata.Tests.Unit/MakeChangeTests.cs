@@ -9,7 +9,7 @@ namespace VendingMachineKata.Tests.Unit
             [Fact]
             public void ColaButtonPress_UsingMoreThanCorrectChange_DispensesProduct_ReturnsRemainingAmount()
             {
-                var sut = new VendingMachine();
+                var sut = GetDefaultInstance();
                 sut.InsertCoin(Coins.Quarter);
                 sut.InsertCoin(Coins.Quarter);
                 sut.InsertCoin(Coins.Quarter);
@@ -28,7 +28,7 @@ namespace VendingMachineKata.Tests.Unit
             [Fact]
             public void CandyButtonPress_UsingMoreThanCorrectChange_DispensesProduct_ReturnsRemainingAmount()
             {
-                var sut = new VendingMachine();
+                var sut = GetDefaultInstance();
                 sut.InsertCoin(Coins.Quarter);
                 sut.InsertCoin(Coins.Quarter);
                 sut.InsertCoin(Coins.Quarter);
@@ -45,7 +45,7 @@ namespace VendingMachineKata.Tests.Unit
             [Fact]
             public void ChipsButtonPress_UsingMoreThanCorrectChange_DispensesProduct_ReturnsRemainingAmount()
             {
-                var sut = new VendingMachine();
+                var sut = GetDefaultInstance();
                 sut.InsertCoin(Coins.Quarter);
                 sut.InsertCoin(Coins.Dime);
                 sut.InsertCoin(Coins.Dime);

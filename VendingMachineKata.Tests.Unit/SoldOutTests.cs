@@ -9,7 +9,7 @@ namespace VendingMachineKata.Tests.Unit
             [Fact]
             public void ColaButtonPress_NoCoinsInserted_WithColaSoldOut_DisplaySoldOutThenInsertCoins()
             {
-                var sut = new VendingMachine();
+                var sut = GetDefaultInstance();
                 sut.UpdateProductStatus("Cola", "SOLD OUT");
 
                 sut.PushColaButton();
@@ -21,7 +21,7 @@ namespace VendingMachineKata.Tests.Unit
             [Fact]
             public void CandyButtonPress_NoCoinsInserted_WithCandySoldOut_DisplaySoldOutThenInsertCoins()
             {
-                var sut = new VendingMachine();
+                var sut = GetDefaultInstance();
                 sut.UpdateProductStatus("Candy", "SOLD OUT");
 
                 sut.PushCandyButton();
@@ -33,7 +33,7 @@ namespace VendingMachineKata.Tests.Unit
             [Fact]
             public void ChipsButtonPress_NoCoinsInserted_WithChipsSoldOut_DisplaySoldOutThenInsertCoins()
             {
-                var sut = new VendingMachine();
+                var sut = GetDefaultInstance();
                 sut.UpdateProductStatus("Chips", "SOLD OUT");
 
                 sut.PushChipsButton();
@@ -45,7 +45,7 @@ namespace VendingMachineKata.Tests.Unit
             [Fact]
             public void ColaButtonPress_CoinsAlreadyInserted_WithColaSoldOut_DisplaySoldOutThenTotalInserted()
             {
-                var sut = new VendingMachine();
+                var sut = GetDefaultInstance();
                 sut.UpdateProductStatus("Cola", "SOLD OUT");
 
                 sut.InsertCoin(Coins.Quarter);
@@ -61,7 +61,7 @@ namespace VendingMachineKata.Tests.Unit
             [Fact]
             public void CandyButtonPress_CoinsAlreadyInserted_WithCandySoldOut_DisplaySoldOutThenTotalInserted()
             {
-                var sut = new VendingMachine();
+                var sut = GetDefaultInstance();
                 sut.UpdateProductStatus("Candy", "SOLD OUT");
 
                 sut.InsertCoin(Coins.Quarter);
@@ -77,7 +77,7 @@ namespace VendingMachineKata.Tests.Unit
             [Fact]
             public void ChipsButtonPress_CoinsAlreadyInserted_WithChipsSoldOut_DisplaySoldOutThenTotalInserted()
             {
-                var sut = new VendingMachine();
+                var sut = GetDefaultInstance();
                 sut.UpdateProductStatus("Chips", "SOLD OUT");
 
                 sut.InsertCoin(Coins.Quarter);

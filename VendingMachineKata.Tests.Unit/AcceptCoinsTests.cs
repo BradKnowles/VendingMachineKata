@@ -12,7 +12,7 @@ namespace VendingMachineKata.Tests.Unit
             [Fact]
             public void InitialState_HasZeroTotal_DisplaysInsertCoin()
             {
-                var sut = new VendingMachine();
+                var sut = GetDefaultInstance();
                 Assert.Equal("INSERT COINS", sut.Display);
                 Assert.Equal(0m, sut.Total);
             }
@@ -21,7 +21,7 @@ namespace VendingMachineKata.Tests.Unit
             [MemberData("ValidCoinsWithValues")]
             public void InsertCoin_InsertValidCoin_SetsTotal_SetsDisplay(Coin validCoin, Decimal expectedTotal, String expectedDisplay)
             {
-                var sut = new VendingMachine();
+                var sut = GetDefaultInstance();
                 sut.InsertCoin(validCoin);
                 Assert.Equal(expectedDisplay, sut.Display);
                 Assert.Equal(expectedTotal, sut.Total);
@@ -31,7 +31,7 @@ namespace VendingMachineKata.Tests.Unit
             [MemberData("InvalidCoins")]
             public void InsertCoin_InsertAnyNonValidCoin_DoesNotChangeTotal_SendsToCoinReturn(Coin invalidCoin)
             {
-                var sut = new VendingMachine();
+                var sut = GetDefaultInstance();
                 Decimal previousTotal = sut.Total;
                 String previousDisplay = sut.Display;
 
@@ -45,7 +45,7 @@ namespace VendingMachineKata.Tests.Unit
             [MemberData("InvalidCoins")]
             public void InsertCoin_InsertValidCoinsFollowedByInvalidCoin_DoesNotChangeTotal_SendsToCoinReturn(Coin invalidCoin)
             {
-                var sut = new VendingMachine();
+                var sut = GetDefaultInstance();
                 sut.InsertCoin(Coins.Quarter);
                 sut.InsertCoin(Coins.Quarter);
 
@@ -61,7 +61,7 @@ namespace VendingMachineKata.Tests.Unit
             [Fact]
             public void InsertCoin_InsertMultipleValidCoins_AddsToTotal_SetsDisplay()
             {
-                var sut = new VendingMachine();
+                var sut = GetDefaultInstance();
                 sut.InsertCoin(Coins.Nickel);
                 sut.InsertCoin(Coins.Dime);
                 Assert.Equal(0.15m, sut.Total);

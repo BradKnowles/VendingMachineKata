@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using VendingMachineKata.Modules;
 
 namespace VendingMachineKata
 {
@@ -11,7 +12,7 @@ namespace VendingMachineKata
         private readonly IReadOnlyDictionary<Coin, Decimal> _coinValueMapping;
         private readonly IReadOnlyList<Product> _products;
         private Dictionary<Product, String> _productStatus;
-        private String _display;
+        private readonly IDisplayModule _displayModule;
 
         private readonly List<Coin> _insertedCoins;
         private readonly List<Coin> _coinReturn;
@@ -21,17 +22,19 @@ namespace VendingMachineKata
         private static readonly Coin _nickel = new Coin(5m, 21.21m);
         private static readonly Coin _dime = new Coin(2.268m, 17.91m);
         private static readonly Coin _quarter = new Coin(5.670m, 24.26m);
-        private Boolean _resetDisplayOnNextGet;
         // ReSharper restore InconsistentNaming
+        private Decimal _total;
 
-        public VendingMachine()
+        public VendingMachine(IDisplayModule displayModule)
         {
+            _displayModule = displayModule;
+
             _validCoins = SetupValidCoins();
             _coinValueMapping = MapCoinValues();
             _products = InitializeProducts();
             InitializeProductStatuses();
 
-            Display = DisplayMessages.InsertCoin;
+            _displayModule.DefaultState();
             _insertedCoins = new List<Coin>();
             _coinReturn = new List<Coin>();
         }
@@ -47,7 +50,7 @@ namespace VendingMachineKata
 
             _insertedCoins.Add(coin);
             Total += _coinValueMapping[coin];
-            Display = TotalFormatted;
+            _displayModule.DefaultState();
         }
 
         public void PushColaButton()
@@ -72,44 +75,34 @@ namespace VendingMachineKata
         {
             if (!ProductIsAvailable(product))
             {
-                Display = DisplayMessages.SoldOut;
-                _resetDisplayOnNextGet = true;
+                _displayModule.ProductNotAvailable();
                 return;
             }
 
             if (Total < product.Price)
             {
-                Display = DisplayMessages.Price(product.Price);
-                _resetDisplayOnNextGet = true;
+                _displayModule.InsufficientFundsForProduct(product.Price, Total);
                 return;
             }
 
             ProductTray = product;
             ProcessRefund(Total - product.Price);
-            Display = DisplayMessages.ThankYou;
+            _displayModule.PurchaseMade();
             Total = 0m;
-            _resetDisplayOnNextGet = true;
         }
 
-        public String Display
+        public String Display => _displayModule.ReadOut;
+
+        public Decimal Total
         {
-            get
-            {
-                if (_resetDisplayOnNextGet)
-                {
-                    String currentDisplay = _display;
-                    _display = Total > 0 ? TotalFormatted : DisplayMessages.InsertCoin;
-                    return currentDisplay;
-                }
-                return _display;
-            }
+            get { return _total; }
             set
             {
-                _display = value;
+                _displayModule.UpdateInsertedCoinValue(value);
+                _total = value;
             }
         }
 
-        public Decimal Total { get; set; }
         public String TotalFormatted => Total.ToString("C2");
 
         public IEnumerable<Coin> CoinReturnSlot => _coinReturn.ToArray();
@@ -174,7 +167,7 @@ namespace VendingMachineKata
             _coinReturn.AddRange(_insertedCoins);
             _insertedCoins.Clear();
             Total = 0m;
-            Display = DisplayMessages.InsertCoin;
+            _displayModule.DefaultState();
         }
 
         public void UpdateProductStatus(String productName, String status)
@@ -227,18 +220,6 @@ namespace VendingMachineKata
             foreach (var product in _products)
             {
                 _productStatus.Add(product, "AVAILABLE");
-            }
-        }
-
-        private static class DisplayMessages
-        {
-            public const String InsertCoin = "INSERT COINS";
-            public const String ThankYou = "THANK YOU";
-            public const String SoldOut = "SOLD OUT";
-
-            public static String Price(Decimal price)
-            {
-                return $"PRICE: {price:C}";
             }
         }
     }
