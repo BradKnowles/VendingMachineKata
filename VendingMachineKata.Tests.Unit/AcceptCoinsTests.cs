@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using Xunit;
+using NUnit.Framework;
 
 namespace VendingMachineKata.Tests.Unit
 {
@@ -9,26 +9,26 @@ namespace VendingMachineKata.Tests.Unit
     {
         public class AcceptCoinsTests
         {
-            [Fact]
+            [Test]
             public void InitialState_HasZeroTotal_DisplaysInsertCoin()
             {
                 var sut = GetDefaultInstance();
-                Assert.Equal("INSERT COINS", sut.Display);
-                Assert.Equal(0m, sut.Total);
+                Assert.AreEqual("INSERT COINS", sut.Display);
+                Assert.AreEqual(0m, sut.Total);
             }
 
-            [Theory]
-            [MemberData("ValidCoinsWithValues")]
+            [Test]
+            [TestCaseSource(nameof(ValidCoinsWithValues))]
             public void InsertCoin_InsertValidCoin_SetsTotal_SetsDisplay(Coin validCoin, Decimal expectedTotal, String expectedDisplay)
             {
                 var sut = GetDefaultInstance();
                 sut.InsertCoin(validCoin);
-                Assert.Equal(expectedDisplay, sut.Display);
-                Assert.Equal(expectedTotal, sut.Total);
+                Assert.AreEqual(expectedDisplay, sut.Display);
+                Assert.AreEqual(expectedTotal, sut.Total);
             }
 
-            [Theory]
-            [MemberData("InvalidCoins")]
+            [Test]
+            [TestCaseSource(nameof(InvalidCoins))]
             public void InsertCoin_InsertAnyNonValidCoin_DoesNotChangeTotal_SendsToCoinReturn(Coin invalidCoin)
             {
                 var sut = GetDefaultInstance();
@@ -36,13 +36,13 @@ namespace VendingMachineKata.Tests.Unit
                 String previousDisplay = sut.Display;
 
                 sut.InsertCoin(invalidCoin);
-                Assert.Equal(previousDisplay, sut.Display);
-                Assert.Equal(previousTotal, sut.Total);
-                Assert.Contains(invalidCoin, sut.CoinReturnSlot);
+                Assert.AreEqual(previousDisplay, sut.Display);
+                Assert.AreEqual(previousTotal, sut.Total);
+                Assert.That(sut.CoinReturnSlot, Has.Some.EqualTo(invalidCoin));
             }
 
-            [Theory]
-            [MemberData("InvalidCoins")]
+            [Test]
+            [TestCaseSource(nameof(InvalidCoins))]
             public void InsertCoin_InsertValidCoinsFollowedByInvalidCoin_DoesNotChangeTotal_SendsToCoinReturn(Coin invalidCoin)
             {
                 var sut = GetDefaultInstance();
@@ -53,22 +53,22 @@ namespace VendingMachineKata.Tests.Unit
                 String validDisplay = sut.Display;
 
                 sut.InsertCoin(invalidCoin);
-                Assert.Equal(validDisplay, sut.Display);
-                Assert.Equal(validTotal, sut.Total);
-                Assert.Contains(invalidCoin, sut.CoinReturnSlot);
+                Assert.AreEqual(validDisplay, sut.Display);
+                Assert.AreEqual(validTotal, sut.Total);
+                Assert.That(sut.CoinReturnSlot, Has.Some.EqualTo(invalidCoin));
             }
 
-            [Fact]
+            [Test]
             public void InsertCoin_InsertMultipleValidCoins_AddsToTotal_SetsDisplay()
             {
                 var sut = GetDefaultInstance();
                 sut.InsertCoin(Coins.Nickel);
                 sut.InsertCoin(Coins.Dime);
-                Assert.Equal(0.15m, sut.Total);
-                Assert.Equal("$0.15", sut.Display);
+                Assert.AreEqual(0.15m, sut.Total);
+                Assert.AreEqual("$0.15", sut.Display);
             }
 
-            [SuppressMessage("ReSharper", "UnusedMember.Local")]
+            [SuppressMessage("ReSharper", "UnusedMethodReturnValue.Local")]
             private static IEnumerable<Object> ValidCoinsWithValues()
             {
                 var coins = new Object[]
@@ -80,7 +80,7 @@ namespace VendingMachineKata.Tests.Unit
                 return coins;
             }
 
-            [SuppressMessage("ReSharper", "UnusedMember.Local")]
+            [SuppressMessage("ReSharper", "UnusedMethodReturnValue.Local")]
             private static IEnumerable<Object> InvalidCoins()
             {
                 var coins = new Object[]

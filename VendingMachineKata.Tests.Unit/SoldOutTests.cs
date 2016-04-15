@@ -1,4 +1,4 @@
-﻿using Xunit;
+﻿using NUnit.Framework;
 
 namespace VendingMachineKata.Tests.Unit
 {
@@ -6,7 +6,7 @@ namespace VendingMachineKata.Tests.Unit
     {
         public class SoldOutTests
         {
-            [Fact]
+            [Test]
             public void ColaButtonPress_NoCoinsInserted_WithColaSoldOut_DisplaySoldOutThenInsertCoins()
             {
                 var sut = GetDefaultInstance();
@@ -14,11 +14,11 @@ namespace VendingMachineKata.Tests.Unit
 
                 sut.PushColaButton();
 
-                Assert.Equal("SOLD OUT", sut.Display);
-                Assert.Equal("INSERT COINS", sut.Display);
+                Assert.AreEqual("SOLD OUT", sut.Display);
+                Assert.AreEqual("INSERT COINS", sut.Display);
             }
 
-            [Fact]
+            [Test]
             public void CandyButtonPress_NoCoinsInserted_WithCandySoldOut_DisplaySoldOutThenInsertCoins()
             {
                 var sut = GetDefaultInstance();
@@ -26,11 +26,11 @@ namespace VendingMachineKata.Tests.Unit
 
                 sut.PushCandyButton();
 
-                Assert.Equal("SOLD OUT", sut.Display);
-                Assert.Equal("INSERT COINS", sut.Display);
+                Assert.AreEqual("SOLD OUT", sut.Display);
+                Assert.AreEqual("INSERT COINS", sut.Display);
             }
 
-            [Fact]
+            [Test]
             public void ChipsButtonPress_NoCoinsInserted_WithChipsSoldOut_DisplaySoldOutThenInsertCoins()
             {
                 var sut = GetDefaultInstance();
@@ -38,11 +38,11 @@ namespace VendingMachineKata.Tests.Unit
 
                 sut.PushChipsButton();
 
-                Assert.Equal("SOLD OUT", sut.Display);
-                Assert.Equal("INSERT COINS", sut.Display);
+                Assert.AreEqual("SOLD OUT", sut.Display);
+                Assert.AreEqual("INSERT COINS", sut.Display);
             }
 
-            [Fact]
+            [Test]
             public void ColaButtonPress_CoinsAlreadyInserted_WithColaSoldOut_DisplaySoldOutThenTotalInserted()
             {
                 var sut = GetDefaultInstance();
@@ -54,11 +54,11 @@ namespace VendingMachineKata.Tests.Unit
                 sut.InsertCoin(Coins.Quarter);
                 sut.PushColaButton();
 
-                Assert.Equal("SOLD OUT", sut.Display);
-                Assert.Equal("$1.00", sut.Display);
+                Assert.AreEqual("SOLD OUT", sut.Display);
+                Assert.AreEqual("$1.00", sut.Display);
             }
 
-            [Fact]
+            [Test]
             public void CandyButtonPress_CoinsAlreadyInserted_WithCandySoldOut_DisplaySoldOutThenTotalInserted()
             {
                 var sut = GetDefaultInstance();
@@ -70,11 +70,11 @@ namespace VendingMachineKata.Tests.Unit
                 sut.InsertCoin(Coins.Quarter);
                 sut.PushCandyButton();
 
-                Assert.Equal("SOLD OUT", sut.Display);
-                Assert.Equal("$1.00", sut.Display);
+                Assert.AreEqual("SOLD OUT", sut.Display);
+                Assert.AreEqual("$1.00", sut.Display);
             }
 
-            [Fact]
+            [Test]
             public void ChipsButtonPress_CoinsAlreadyInserted_WithChipsSoldOut_DisplaySoldOutThenTotalInserted()
             {
                 var sut = GetDefaultInstance();
@@ -86,8 +86,8 @@ namespace VendingMachineKata.Tests.Unit
                 sut.InsertCoin(Coins.Quarter);
                 sut.PushChipsButton();
 
-                Assert.Equal("SOLD OUT", sut.Display);
-                Assert.Equal("$1.00", sut.Display);
+                Assert.AreEqual("SOLD OUT", sut.Display);
+                Assert.AreEqual("$1.00", sut.Display);
             }
         }
     }

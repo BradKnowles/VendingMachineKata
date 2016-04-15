@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using Xunit;
+using NUnit.Framework;
 
 namespace VendingMachineKata.Tests.Unit
 {
@@ -7,7 +7,7 @@ namespace VendingMachineKata.Tests.Unit
     {
         public class ReturnCoinsTests
         {
-            [Fact]
+            [Test]
             public void ReturnCoinPressed_WhenCustomerInsertedCoins_ReturnsCoins_DisplaysInsertCoins()
             {
                 var sut = GetDefaultInstance();
@@ -17,13 +17,13 @@ namespace VendingMachineKata.Tests.Unit
 
                 sut.ReturnCoins();
 
-                Assert.Contains(Coins.Quarter, sut.CoinReturnSlot);
-                Assert.Contains(Coins.Nickel, sut.CoinReturnSlot);
-                Assert.Contains(Coins.Dime, sut.CoinReturnSlot);
-                Assert.Equal("INSERT COINS", sut.Display);
+                Assert.That(sut.CoinReturnSlot, Has.Exactly(1).EqualTo(Coins.Quarter));
+                Assert.That(sut.CoinReturnSlot, Has.Exactly(1).EqualTo(Coins.Nickel));
+                Assert.That(sut.CoinReturnSlot, Has.Exactly(1).EqualTo(Coins.Dime));
+                Assert.AreEqual("INSERT COINS", sut.Display);
             }
 
-            [Fact]
+            [Test]
             public void ReturnCoinPressed_WhenCustomerInsertsMultipleSimiliarCoins_ReturnsCorrectNumberAndTypeOfCoins_DisplaysInsertCoins()
             {
                 var sut = GetDefaultInstance();
@@ -37,14 +37,11 @@ namespace VendingMachineKata.Tests.Unit
 
                 sut.ReturnCoins();
 
-                Assert.Contains(Coins.Quarter, sut.CoinReturnSlot);
-                Assert.Contains(Coins.Nickel, sut.CoinReturnSlot);
-                Assert.Contains(Coins.Dime, sut.CoinReturnSlot);
-                Assert.Equal(7, sut.CoinReturnSlot.Count());
-                Assert.Equal(2, sut.CoinReturnSlot.Count(x => x == Coins.Quarter));
-                Assert.Equal(3, sut.CoinReturnSlot.Count(x => x == Coins.Nickel));
-                Assert.Equal(2, sut.CoinReturnSlot.Count(x => x == Coins.Dime));
-                Assert.Equal("INSERT COINS", sut.Display);
+                Assert.That(sut.CoinReturnSlot, Has.Exactly(2).EqualTo(Coins.Quarter));
+                Assert.That(sut.CoinReturnSlot, Has.Exactly(3).EqualTo(Coins.Nickel));
+                Assert.That(sut.CoinReturnSlot, Has.Exactly(2).EqualTo(Coins.Dime));
+                Assert.That(sut.CoinReturnSlot.Count(), Is.EqualTo(7));
+                Assert.AreEqual("INSERT COINS", sut.Display);
             }
         }
     }

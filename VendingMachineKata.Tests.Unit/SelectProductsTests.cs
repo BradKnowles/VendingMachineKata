@@ -1,4 +1,4 @@
-﻿using Xunit;
+﻿using NUnit.Framework;
 
 namespace VendingMachineKata.Tests.Unit
 {
@@ -6,7 +6,7 @@ namespace VendingMachineKata.Tests.Unit
     {
         public class SelectProductsTests
         {
-            [Fact]
+            [Test]
             public void ColaButtonPress_UsingCorrectChange_DispenseProduct_DisplaysThankYouThenInsertCoins_SetsTotalToZero()
             {
                 var sut = GetDefaultInstance();
@@ -16,13 +16,13 @@ namespace VendingMachineKata.Tests.Unit
                 sut.InsertCoin(Coins.Quarter);
                 sut.PushColaButton();
 
-                Assert.Equal("THANK YOU", sut.Display);
-                Assert.Equal(Products.Cola, sut.ProductTray);
-                Assert.Equal("INSERT COINS", sut.Display);
-                Assert.Equal(0m, sut.Total);
+                Assert.AreEqual("THANK YOU", sut.Display);
+                Assert.AreEqual(Products.Cola, sut.ProductTray);
+                Assert.AreEqual("INSERT COINS", sut.Display);
+                Assert.AreEqual(0m, sut.Total);
             }
 
-            [Fact]
+            [Test]
             public void CandyButtonPress_UsingCorrectChange_DispenseProduct_DisplaysThankYouThenInsertCoins_SetsTotalToZero()
             {
                 var sut = GetDefaultInstance();
@@ -32,13 +32,13 @@ namespace VendingMachineKata.Tests.Unit
                 sut.InsertCoin(Coins.Nickel);
                 sut.PushCandyButton();
 
-                Assert.Equal("THANK YOU", sut.Display);
-                Assert.Equal(Products.Candy, sut.ProductTray);
-                Assert.Equal("INSERT COINS", sut.Display);
-                Assert.Equal(0m, sut.Total);
+                Assert.AreEqual("THANK YOU", sut.Display);
+                Assert.AreEqual(Products.Candy, sut.ProductTray);
+                Assert.AreEqual("INSERT COINS", sut.Display);
+                Assert.AreEqual(0m, sut.Total);
             }
 
-            [Fact]
+            [Test]
             public void ChipsButtonPress_UsingCorrectChange_DispenseProduct_DisplaysThankYouThenInsertCoins_SetsTotalToZero()
             {
                 var sut = GetDefaultInstance();
@@ -49,79 +49,79 @@ namespace VendingMachineKata.Tests.Unit
                 sut.InsertCoin(Coins.Dime);
                 sut.PushChipsButton();
 
-                Assert.Equal("THANK YOU", sut.Display);
-                Assert.Equal(Products.Chips, sut.ProductTray);
-                Assert.Equal("INSERT COINS", sut.Display);
-                Assert.Equal(0m, sut.Total);
+                Assert.AreEqual("THANK YOU", sut.Display);
+                Assert.AreEqual(Products.Chips, sut.ProductTray);
+                Assert.AreEqual("INSERT COINS", sut.Display);
+                Assert.AreEqual(0m, sut.Total);
             }
 
-            [Fact]
+            [Test]
             public void ColaButtonPress_UsingIncorrectChange_DisplaysProductPriceThenCurrentTotal_DoesNotDispenseProduct()
             {
                 var sut = GetDefaultInstance();
                 sut.InsertCoin(Coins.Quarter);
                 sut.PushColaButton();
 
-                Assert.Equal(null, sut.ProductTray);
-                Assert.Equal("PRICE: $1.00", sut.Display);
-                Assert.Equal("$0.25", sut.Display);
+                Assert.AreEqual(null, sut.ProductTray);
+                Assert.AreEqual("PRICE: $1.00", sut.Display);
+                Assert.AreEqual("$0.25", sut.Display);
             }
 
-            [Fact]
+            [Test]
             public void CandyButtonPress_UsingIncorrectChange_DisplaysProductPriceThenCurrentTotal_DoesNotDispenseProduct()
             {
                 var sut = GetDefaultInstance();
                 sut.InsertCoin(Coins.Quarter);
                 sut.PushCandyButton();
 
-                Assert.Equal(null, sut.ProductTray);
-                Assert.Equal("PRICE: $0.65", sut.Display);
-                Assert.Equal("$0.25", sut.Display);
+                Assert.AreEqual(null, sut.ProductTray);
+                Assert.AreEqual("PRICE: $0.65", sut.Display);
+                Assert.AreEqual("$0.25", sut.Display);
             }
 
-            [Fact]
+            [Test]
             public void ChipsButtonPress_UsingIncorrectChange_DisplaysProductPriceThenCurrentTotal_DoesNotDispenseProduct()
             {
                 var sut = GetDefaultInstance();
                 sut.InsertCoin(Coins.Quarter);
                 sut.PushChipsButton();
 
-                Assert.Equal(null, sut.ProductTray);
-                Assert.Equal("PRICE: $0.50", sut.Display);
-                Assert.Equal("$0.25", sut.Display);
+                Assert.AreEqual(null, sut.ProductTray);
+                Assert.AreEqual("PRICE: $0.50", sut.Display);
+                Assert.AreEqual("$0.25", sut.Display);
             }
 
-            [Fact]
+            [Test]
             public void ColaButtonPress_WithNoMoneyInserted_DisplaysProductPriceThenInsertCoins_DoesNotDispenseProduct()
             {
                 var sut = GetDefaultInstance();
                 sut.PushColaButton();
 
-                Assert.Equal(null, sut.ProductTray);
-                Assert.Equal("PRICE: $1.00", sut.Display);
-                Assert.Equal("INSERT COINS", sut.Display);
+                Assert.AreEqual(null, sut.ProductTray);
+                Assert.AreEqual("PRICE: $1.00", sut.Display);
+                Assert.AreEqual("INSERT COINS", sut.Display);
             }
 
-            [Fact]
+            [Test]
             public void CandyButtonPress_WithNoMoneyInserted_DisplaysProductPriceThenInsertCoins_DoesNotDispenseProduct()
             {
                 var sut = GetDefaultInstance();
                 sut.PushCandyButton();
 
-                Assert.Equal(null, sut.ProductTray);
-                Assert.Equal("PRICE: $0.65", sut.Display);
-                Assert.Equal("INSERT COINS", sut.Display);
+                Assert.AreEqual(null, sut.ProductTray);
+                Assert.AreEqual("PRICE: $0.65", sut.Display);
+                Assert.AreEqual("INSERT COINS", sut.Display);
             }
 
-            [Fact]
+            [Test]
             public void ChipsButtonPress_WithNoMoneyInserted_DisplaysProductPriceThenInsertCoins_DoesNotDispenseProduct()
             {
                 var sut = GetDefaultInstance();
                 sut.PushChipsButton();
 
-                Assert.Equal(null, sut.ProductTray);
-                Assert.Equal("PRICE: $0.50", sut.Display);
-                Assert.Equal("INSERT COINS", sut.Display);
+                Assert.AreEqual(null, sut.ProductTray);
+                Assert.AreEqual("PRICE: $0.50", sut.Display);
+                Assert.AreEqual("INSERT COINS", sut.Display);
             }
         }
     }
